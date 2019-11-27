@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
 
 namespace DnDCharacterTracker.Models
 {
-    public partial class Class
+    public class Class
     {
-        public Class()
-        {
-            CharacterClass = new HashSet<CharacterClass>();
-        }
-
-        public long Id { get; set; }
+        [Key]
+        public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
-
-        public virtual ICollection<CharacterClass> CharacterClass { get; set; }
     }
 }
