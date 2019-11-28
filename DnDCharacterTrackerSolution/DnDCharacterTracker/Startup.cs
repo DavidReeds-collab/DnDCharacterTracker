@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using DnDCharacterTracker.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using DnDCharacterTracker.Services;
 
 namespace DnDCharacterTracker
 {
@@ -43,6 +44,8 @@ namespace DnDCharacterTracker
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddTransient<ICharacterServices, CharacterServices>(); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

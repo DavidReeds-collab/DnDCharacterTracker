@@ -20,6 +20,10 @@ namespace DnDCharacterTracker.Data
         public DbSet<DnDCharacterTracker.Models.AbilityScore> AbilityScores { get; set; }
         public DbSet<DnDCharacterTracker.Models.CharacterAbilities> CharacterAbilities { get; set; }
         public DbSet<DnDCharacterTracker.Models.ClassAbilities> ClassAbilities { get; set; }
+        public DbSet<DnDCharacterTracker.Models.ClassFeature> ClassFeatures { get; set; }
+        public DbSet<DnDCharacterTracker.Models.Feature> Features { get; set; }
+        public DbSet<DnDCharacterTracker.Models.FeatureChoice> FeatureChoices { get; set; }
+        public DbSet<DnDCharacterTracker.Models.Option> Options { get; set; }
         public DbSet<DnDCharacterTracker.Models.Skill> Skills { get; set; }
         public DbSet<DnDCharacterTracker.Models.CharacterSkill> CharacterSkills { get; set; }
     }
