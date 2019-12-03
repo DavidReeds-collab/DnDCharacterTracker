@@ -34,9 +34,11 @@
                 @Html.DisplayNameFor(model => model.Charisma)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FK_Race)
+                @Html.DisplayNameFor(model => model.Race)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Classes)
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -64,7 +66,23 @@
                 @Html.DisplayFor(modelItem => item.Charisma)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FK_Race)
+                @Html.DisplayFor(modelItem => item.Race.Name)
+            </td>
+            <td>
+                @if (item.ClassIntermediaries.Count != 0)
+                {
+                    @foreach (CharacterClass Class in item.ClassIntermediaries)
+                    {
+                        <dd class="col-sm-10">
+                            @Html.Raw(Class.Class.Name + ", level " + Class.Level.ToString())
+                        </dd>
+                    }
+                }
+                else
+                {
+                    <p>No Class chosen yet</p>
+
+                }
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

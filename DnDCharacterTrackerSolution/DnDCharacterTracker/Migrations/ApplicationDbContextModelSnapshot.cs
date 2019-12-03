@@ -15,7 +15,7 @@ namespace DnDCharacterTracker.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -25,11 +25,43 @@ namespace DnDCharacterTracker.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Name");
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 
                     b.ToTable("AbilityScores");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Strenght"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Dexterity"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Constitution"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Wisdom"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Intelligence"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Charisma"
+                        });
                 });
 
             modelBuilder.Entity("DnDCharacterTracker.Models.Character", b =>
@@ -101,6 +133,44 @@ namespace DnDCharacterTracker.Migrations
                     b.ToTable("CharacterClasses");
                 });
 
+            modelBuilder.Entity("DnDCharacterTracker.Models.CharacterProficiency", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("FK_Character");
+
+                    b.Property<int>("FK_Proficiency");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FK_Character");
+
+                    b.HasIndex("FK_Proficiency");
+
+                    b.ToTable("CharacterProficiencies");
+                });
+
+            modelBuilder.Entity("DnDCharacterTracker.Models.CharacterRaceFeature", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("FK_Character");
+
+                    b.Property<int>("FK_RaceFeature");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FK_Character");
+
+                    b.HasIndex("FK_RaceFeature");
+
+                    b.ToTable("CharacterRaceFeatures");
+                });
+
             modelBuilder.Entity("DnDCharacterTracker.Models.CharacterSkill", b =>
                 {
                     b.Property<int>("Id")
@@ -120,6 +190,29 @@ namespace DnDCharacterTracker.Migrations
                     b.ToTable("CharacterSkills");
                 });
 
+            modelBuilder.Entity("DnDCharacterTracker.Models.Choice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AllowedOptions");
+
+                    b.Property<string>("Descriminator");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Choices");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AllowedOptions = 1,
+                            Descriminator = "language"
+                        });
+                });
+
             modelBuilder.Entity("DnDCharacterTracker.Models.Class", b =>
                 {
                     b.Property<int>("Id")
@@ -135,6 +228,23 @@ namespace DnDCharacterTracker.Migrations
                     b.HasIndex("CharacterId");
 
                     b.ToTable("Classes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Not chosen yet"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Fighter"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Paladin"
+                        });
                 });
 
             modelBuilder.Entity("DnDCharacterTracker.Models.ClassAbilities", b =>
@@ -183,6 +293,10 @@ namespace DnDCharacterTracker.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("AllowedNumberOfChoices");
+
+                    b.Property<string>("Description");
+
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
@@ -195,8 +309,6 @@ namespace DnDCharacterTracker.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AllowedNumberOfOptions");
 
                     b.Property<int>("FK_Feature");
 
@@ -219,11 +331,220 @@ namespace DnDCharacterTracker.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<int>("FK_Choice");
+
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Options");
+                    b.HasIndex("FK_Choice");
+
+                    b.ToTable("Option");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FK_Choice = 1,
+                            Name = "Infernal"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            FK_Choice = 1,
+                            Name = "Celestial"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            FK_Choice = 1,
+                            Name = "Dwarfish"
+                        });
+                });
+
+            modelBuilder.Entity("DnDCharacterTracker.Models.Proficiency", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Proficiencies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Abyssal"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Aquan"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Auran"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Celestial"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Common"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Deep Speech"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Draconic"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Druidic"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "Dwarvish"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "Elvish"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Name = "Giant"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Name = "Gnomish"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Name = "Goblin"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Name = "Gnoll"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Name = "Halfling"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Name = "Ignan"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Name = "Infernal"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Name = "Orc"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Name = "Primordial"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Name = "Sylvan"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Name = "Undercommon"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Name = "Artisan’s Tools"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Name = "Disguise Kit"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Name = "Forgery Kit"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Name = "Gaming Set"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Name = "Herbalism Kit"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Name = "Musical Instrument"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Name = "Poisoner’s Kit"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Name = "Simple Weapons"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Name = "Martial Weapons"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Name = "Light Armor"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            Name = "Medium Armor"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            Name = "Simple Weapons"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            Name = "Heavy Armor"
+                        });
                 });
 
             modelBuilder.Entity("DnDCharacterTracker.Models.Race", b =>
@@ -234,9 +555,233 @@ namespace DnDCharacterTracker.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<int>("Speed");
+
                     b.HasKey("Id");
 
                     b.ToTable("Races");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Not chosen yet",
+                            Speed = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Human",
+                            Speed = 30
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Dwarf",
+                            Speed = 0
+                        });
+                });
+
+            modelBuilder.Entity("DnDCharacterTracker.Models.RaceAbilityScores", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("FK_AbilityScore");
+
+                    b.Property<int>("FK_Race");
+
+                    b.Property<int>("amount");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FK_AbilityScore");
+
+                    b.HasIndex("FK_Race");
+
+                    b.ToTable("raceAbilityScores");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1,
+                            FK_AbilityScore = 1,
+                            FK_Race = 2,
+                            amount = 1
+                        },
+                        new
+                        {
+                            Id = -2,
+                            FK_AbilityScore = 2,
+                            FK_Race = 2,
+                            amount = 1
+                        },
+                        new
+                        {
+                            Id = -3,
+                            FK_AbilityScore = 3,
+                            FK_Race = 2,
+                            amount = 1
+                        },
+                        new
+                        {
+                            Id = -4,
+                            FK_AbilityScore = 4,
+                            FK_Race = 2,
+                            amount = 1
+                        },
+                        new
+                        {
+                            Id = -5,
+                            FK_AbilityScore = 5,
+                            FK_Race = 2,
+                            amount = 1
+                        },
+                        new
+                        {
+                            Id = -6,
+                            FK_AbilityScore = 6,
+                            FK_Race = 2,
+                            amount = 1
+                        });
+                });
+
+            modelBuilder.Entity("DnDCharacterTracker.Models.RaceFeature", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RaceFeatures");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Your Ability Scores each increase by 1.",
+                            Name = "Ability Score Increase"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Humans reach Adulthood in their late teens and live less than a century.",
+                            Name = "Age"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Humans tend toward no particular Alignment. The best and the worst are found among them.",
+                            Name = "Alignment"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Humans vary widely in height and build, from barely 5 feet to well over 6 feet tall. Regardless of your position in that range, your size is Medium.",
+                            Name = "Size"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "Your base walking speed is 30 feet.",
+                            Name = "Speed"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Description = "You can speak, read, and write Common and one extra language of your choice. Humans typically learn the Languages of other peoples they deal with, including obscure dialects. They are fond of sprinkling their Speech with words borrowed from other tongues: Orc curses, Elvish musical expressions, Dwarvish Military phrases, and so on.",
+                            Name = "Languages"
+                        });
+                });
+
+            modelBuilder.Entity("DnDCharacterTracker.Models.RaceFeatureChoice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("FK_Choice");
+
+                    b.Property<int>("FK_RaceFeature");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FK_Choice");
+
+                    b.HasIndex("FK_RaceFeature");
+
+                    b.ToTable("RaceFeatureChoices");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FK_Choice = 1,
+                            FK_RaceFeature = 6
+                        });
+                });
+
+            modelBuilder.Entity("DnDCharacterTracker.Models.RaceRacefeature", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("FK_Race");
+
+                    b.Property<int>("FK_RaceFeature");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FK_Race");
+
+                    b.HasIndex("FK_RaceFeature");
+
+                    b.ToTable("RaceRacefeatures");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FK_Race = 2,
+                            FK_RaceFeature = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            FK_Race = 2,
+                            FK_RaceFeature = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            FK_Race = 2,
+                            FK_RaceFeature = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            FK_Race = 2,
+                            FK_RaceFeature = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            FK_Race = 2,
+                            FK_RaceFeature = 5
+                        },
+                        new
+                        {
+                            Id = 6,
+                            FK_Race = 2,
+                            FK_RaceFeature = 6
+                        });
                 });
 
             modelBuilder.Entity("DnDCharacterTracker.Models.Skill", b =>
@@ -254,6 +799,110 @@ namespace DnDCharacterTracker.Migrations
                     b.HasIndex("FK_AbilityScore");
 
                     b.ToTable("Skills");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FK_AbilityScore = 2,
+                            Name = "Acrobatics"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            FK_AbilityScore = 4,
+                            Name = "Animal handling"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            FK_AbilityScore = 5,
+                            Name = "Arcana"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            FK_AbilityScore = 1,
+                            Name = "Athletics"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            FK_AbilityScore = 6,
+                            Name = "Deception"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            FK_AbilityScore = 5,
+                            Name = "History"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            FK_AbilityScore = 4,
+                            Name = "Insight"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            FK_AbilityScore = 6,
+                            Name = "Intimidation"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            FK_AbilityScore = 4,
+                            Name = "Medicine"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            FK_AbilityScore = 5,
+                            Name = "Nature"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            FK_AbilityScore = 4,
+                            Name = "Perception"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            FK_AbilityScore = 6,
+                            Name = "Performance"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            FK_AbilityScore = 6,
+                            Name = "Persuasion"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            FK_AbilityScore = 5,
+                            Name = "Religion"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            FK_AbilityScore = 2,
+                            Name = "Sleight of Hand"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            FK_AbilityScore = 2,
+                            Name = "Stealth"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            FK_AbilityScore = 4,
+                            Name = "Survival"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -455,6 +1104,32 @@ namespace DnDCharacterTracker.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("DnDCharacterTracker.Models.CharacterProficiency", b =>
+                {
+                    b.HasOne("DnDCharacterTracker.Models.Character", "Character")
+                        .WithMany()
+                        .HasForeignKey("FK_Character")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DnDCharacterTracker.Models.Proficiency", "Proficiency")
+                        .WithMany()
+                        .HasForeignKey("FK_Proficiency")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DnDCharacterTracker.Models.CharacterRaceFeature", b =>
+                {
+                    b.HasOne("DnDCharacterTracker.Models.Character", "Character")
+                        .WithMany()
+                        .HasForeignKey("FK_Character")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DnDCharacterTracker.Models.RaceFeature", "RaceFeature")
+                        .WithMany()
+                        .HasForeignKey("FK_RaceFeature")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("DnDCharacterTracker.Models.CharacterSkill", b =>
                 {
                     b.HasOne("DnDCharacterTracker.Models.Character", "Character")
@@ -511,6 +1186,53 @@ namespace DnDCharacterTracker.Migrations
                     b.HasOne("DnDCharacterTracker.Models.Option", "Option")
                         .WithMany()
                         .HasForeignKey("FK_Option")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DnDCharacterTracker.Models.Option", b =>
+                {
+                    b.HasOne("DnDCharacterTracker.Models.Choice", "Choice")
+                        .WithMany("AvailableOptions")
+                        .HasForeignKey("FK_Choice")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DnDCharacterTracker.Models.RaceAbilityScores", b =>
+                {
+                    b.HasOne("DnDCharacterTracker.Models.AbilityScore", "AbilityScore")
+                        .WithMany()
+                        .HasForeignKey("FK_AbilityScore")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DnDCharacterTracker.Models.Race", "Race")
+                        .WithMany()
+                        .HasForeignKey("FK_Race")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DnDCharacterTracker.Models.RaceFeatureChoice", b =>
+                {
+                    b.HasOne("DnDCharacterTracker.Models.Proficiency", "Choice")
+                        .WithMany()
+                        .HasForeignKey("FK_Choice")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DnDCharacterTracker.Models.RaceFeature", "RaceFeature")
+                        .WithMany()
+                        .HasForeignKey("FK_RaceFeature")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DnDCharacterTracker.Models.RaceRacefeature", b =>
+                {
+                    b.HasOne("DnDCharacterTracker.Models.Race", "Race")
+                        .WithMany()
+                        .HasForeignKey("FK_Race")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DnDCharacterTracker.Models.RaceFeature", "RaceFeature")
+                        .WithMany()
+                        .HasForeignKey("FK_RaceFeature")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

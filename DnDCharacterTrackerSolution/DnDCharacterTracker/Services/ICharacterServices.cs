@@ -6,10 +6,19 @@ using System.Threading.Tasks;
 
 namespace DnDCharacterTracker.Services
 {
-    interface ICharacterServices
+    public interface ICharacterServices
     {
         Character GetCharacterFromId(int id);
 
+        int GetCharacterLevel(int id);
+
+        void SetCharacterRace(int id, Character character);
+
+        void AddCharacterClass(int id, Character character);
+
+        void RetrieveClassIntermediaries(Character character);
+
+        void ApplyAbilityScoreImprovements(Character character, RaceAbilityScores raceAbilityScores);
 
     }
 }

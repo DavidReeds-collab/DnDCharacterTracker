@@ -1,0 +1,4 @@
+D:\Documents\DnDCharacterTracker\DnDCharacterTrackerSolution\DnDCharacterTracker\obj\Debug\netcoreapp3.0\DnDCharacterTracker.csprojAssemblyReference.cache
+D:\Documents\DnDCharacterTracker\DnDCharacterTrackerSolution\DnDCharacterTracker\obj\Debug\netcoreapp3.0\DnDCharacterTracker.MvcApplicationPartsAssemblyInfo.cache
+D:\Documents\DnDCharacterTracker\DnDCharacterTrackerSolution\DnDCharacterTracker\obj\Debug\netcoreapp3.0\DnDCharacterTracker.AssemblyInfoInputs.cache
+D:\Documents\DnDCharacterTracker\DnDCharacterTrackerSolution\DnDCharacterTracker\obj\Debug\netcoreapp3.0\DnDCharacterTracker.AssemblyInfo.cs

@@ -45,7 +45,8 @@ namespace DnDCharacterTracker
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddTransient<ICharacterServices, CharacterServices>(); 
+            services.AddTransient<ICharacterServices, CharacterServices>();
+            services.AddTransient<IChoiceServices, ChoiceServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,7 +74,7 @@ namespace DnDCharacterTracker
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Characters}/{action=Index}/{id?}");
             });
         }
     }
