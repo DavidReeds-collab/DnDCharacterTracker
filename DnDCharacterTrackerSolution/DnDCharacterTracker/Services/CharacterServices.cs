@@ -29,7 +29,7 @@ namespace DnDCharacterTracker.Services
             });
 
             _context.Update(character);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
 
         public Character GetCharacterFromId(int id)
@@ -43,6 +43,8 @@ namespace DnDCharacterTracker.Services
             returnCharacter.ClassIntermediaries = _context.CharacterClasses.Where(cc => cc.FK_Character == returnCharacter.Id).ToList();
 
             returnCharacter.RaceFeatures = _context.CharacterRaceFeatures.Where(c => c.FK_Character == returnCharacter.Id).Select(C => C.RaceFeature).ToList();
+
+            returnCharacter.Proficiencies = _context.CharacterProficiencies.Where(cp => cp.FK_Character == returnCharacter.Id).Select(cp => cp.Proficiency).ToList();
 
             //returnCharacter.Classes =
 
@@ -93,7 +95,7 @@ namespace DnDCharacterTracker.Services
             }
 
             _context.Update(character);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
 
         public void ApplyAbilityScoreImprovements(Character character, RaceAbilityScores raceAbilityScores)

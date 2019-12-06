@@ -120,10 +120,11 @@ namespace DnDCharacterTracker.Data
 
             modelBuilder.Entity<RaceFeature>().HasData(new RaceFeature { Id = 6, Name = "Languages", Description = "You can speak, read, and write Common and one extra language of your choice. Humans typically learn the Languages of other peoples they deal with, including obscure dialects. They are fond of sprinkling their Speech with words borrowed from other tongues: Orc curses, Elvish musical expressions, Dwarvish Military phrases, and so on." });
             modelBuilder.Entity<RaceFeatureChoice>().HasData(new RaceFeatureChoice { Id = 1, FK_RaceFeature = 6, FK_Choice = 1 });
-            modelBuilder.Entity<Choice>().HasData(new Choice { Id = 1,  AllowedOptions = 1, Descriminator = "language"});
+            modelBuilder.Entity<Choice>().HasData(new Choice { Id = 1,  AllowedOptions = 1, Descriminator = "RacialLanguage"});
             modelBuilder.Entity<Option>().HasData(new Option { Id = 1, Name = "Infernal", FK_Choice = 1 });
             modelBuilder.Entity<Option>().HasData(new Option { Id = 2, Name = "Celestial", FK_Choice = 1 });
-            modelBuilder.Entity<Option>().HasData(new Option { Id = 3, Name = "Dwarfish", FK_Choice = 1 });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 3, Name = "Dwarvish", FK_Choice = 1 });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 4, Name = "Common", FK_Choice = 1, free = true }); ;
 
 
             modelBuilder.Entity<RaceRacefeature>().HasData(new RaceRacefeature { Id = 6, FK_Race = 2, FK_RaceFeature = 6 });

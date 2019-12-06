@@ -28,14 +28,9 @@ namespace DnDCharacterTracker.Models
         public List<Class> Classes { get; set; } = new List<Class>();
         [NotMapped]
         public List<CharacterClass> ClassIntermediaries { get; set; } = new List<CharacterClass>();
+        [NotMapped]
+        public List<Proficiency> Proficiencies { get; set; } = new List<Proficiency>();
 
-        private readonly ApplicationDbContext _context;
-        private readonly CharacterServices _characterServies;
-        public Character(ApplicationDbContext context, CharacterServices characterServices)
-        {
-            _context = context;
-            _characterServies = characterServices;
-        }
 
         public Character()
         {

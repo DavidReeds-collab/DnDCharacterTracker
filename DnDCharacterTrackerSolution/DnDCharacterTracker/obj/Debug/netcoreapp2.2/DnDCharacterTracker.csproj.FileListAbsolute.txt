@@ -68,7 +68,6 @@ D:\Documents\DnDCharacterTracker\DnDCharacterTrackerSolution\DnDCharacterTracker
 D:\Documents\DnDCharacterTracker\DnDCharacterTrackerSolution\DnDCharacterTracker\obj\Debug\netcoreapp2.2\DnDCharacterTracker.RazorTargetAssemblyInfo.cs
 D:\Documents\DnDCharacterTracker\DnDCharacterTrackerSolution\DnDCharacterTracker\obj\Debug\netcoreapp2.2\DnDCharacterTracker.Views.pdb
 D:\Documents\DnDCharacterTracker\DnDCharacterTrackerSolution\DnDCharacterTracker\obj\Debug\netcoreapp2.2\DnDCharacterTracker.csproj.CopyComplete
-D:\Documents\DnDCharacterTracker\DnDCharacterTrackerSolution\DnDCharacterTracker\obj\Debug\netcoreapp2.2\DnDCharacterTracker.csprojAssemblyReference.cache
 D:\Documents\DnDCharacterTracker\DnDCharacterTrackerSolution\DnDCharacterTracker\obj\Debug\netcoreapp2.2\Razor\Views\Characters\Create.cshtml.g.cs
 D:\Documents\DnDCharacterTracker\DnDCharacterTrackerSolution\DnDCharacterTracker\obj\Debug\netcoreapp2.2\Razor\Views\Characters\Delete.cshtml.g.cs
 D:\Documents\DnDCharacterTracker\DnDCharacterTrackerSolution\DnDCharacterTracker\obj\Debug\netcoreapp2.2\Razor\Views\Characters\Details.cshtml.g.cs
@@ -77,3 +76,4 @@ D:\Documents\DnDCharacterTracker\DnDCharacterTrackerSolution\DnDCharacterTracker
 D:\Documents\DnDCharacterTracker\DnDCharacterTrackerSolution\DnDCharacterTracker\obj\Debug\netcoreapp2.2\Razor\Views\Characters\ChooseRace.cshtml.g.cs
 D:\Documents\DnDCharacterTracker\DnDCharacterTrackerSolution\DnDCharacterTracker\obj\Debug\netcoreapp2.2\Razor\Views\Characters\ChooseClass.cshtml.g.cs
 D:\Documents\DnDCharacterTracker\DnDCharacterTrackerSolution\DnDCharacterTracker\obj\Debug\netcoreapp2.2\Razor\Views\Characters\ChoiceView.cshtml.g.cs
+D:\Documents\DnDCharacterTracker\DnDCharacterTrackerSolution\DnDCharacterTracker\obj\Debug\netcoreapp2.2\DnDCharacterTracker.csprojAssemblyReference.cache

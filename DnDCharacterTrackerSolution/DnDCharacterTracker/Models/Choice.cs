@@ -13,5 +13,7 @@ namespace DnDCharacterTracker.Models
         public int AllowedOptions { get; set; }
         public string Descriminator { get; set; }
         public List<Option> AvailableOptions { get; set; }
+
+
     }
 }

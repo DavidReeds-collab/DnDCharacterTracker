@@ -16,5 +16,7 @@ namespace DnDCharacterTracker.Services
         ChoiceViewModel CreateChoiceViewModelFromDB(Choice choice);
 
         ChoicesCollection CreateChoiceCollection(List<RaceFeature> raceFeatures, Character character);
+
+        void ResolveChoice(int Id, ChoicesCollection choicesCollection);
     }
 }

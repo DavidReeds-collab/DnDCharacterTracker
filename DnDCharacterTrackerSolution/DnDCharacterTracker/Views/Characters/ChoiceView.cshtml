@@ -1,9 +1,67 @@
-﻿@model DnDCharacterTracker.Models.ChoiceViewModel
+﻿@model DnDCharacterTracker.Models.ChoicesCollection
 @{
     ViewData["Title"] = "ChoiceView";
 }
 
 <h1>ChoiceView</h1>
 
-<h2>@Html.Raw(Model.Name)</h2>
-<p>@Html.Raw(Model.Description)</p>
+@for (int iChoice = 0; iChoice < Model.Choices.Count; iChoice++)
+{
+    <h2>@Html.Raw(Model.Choices[iChoice].Name)</h2>
+    <p>@Html.Raw(Model.Choices[iChoice].Description)</p>
+    <div class="col-md-4">
+        <form asp-action="Choice">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.Hidden("Id", Model.Character.Id)
+            @Html.Hidden($"choicesCollection.Choices[{iChoice}].Name", Model.Choices[iChoice].Name)
+            @Html.Hidden($"choicesCollection.Choices[{iChoice}].Description", Model.Choices[iChoice].Description)
+            @Html.Hidden($"choicesCollection.Choices[{iChoice}].Descriminator", Model.Choices[iChoice].Descriminator)
+
+            @for (int iOption = 0; iOption < Model.Choices[iChoice].OptionNames.Count; iOption++)
+            {
+                @if (Model.Choices[iChoice].FreeOptions[iOption])
+                {
+                    @Html.Hidden($"optionsChosen[{iChoice}][{iOption}]", true)
+                    @if (!string.IsNullOrEmpty(Model.Choices[iChoice].OptionNames[iOption]))
+                    {
+                        @Html.Hidden($"optionsNames[{iChoice}][{iOption}]", Model.Choices[iChoice].OptionNames[iOption])
+                    }
+                    @if (!(Model.Choices[iChoice].OptionDescriptions.Count() - 1 < iOption))
+                    {
+                        @if (!string.IsNullOrEmpty(Model.Choices[iChoice].OptionDescriptions[iOption]))
+                        {
+                            @Html.Hidden($"optionsDescriptions[{iChoice}][{iOption}]", Model.Choices[iChoice].OptionDescriptions[iOption])
+                        }
+                    }
+                }
+                else
+                {
+                    <div class="form-group">
+                        <p>
+                            @if (!string.IsNullOrEmpty(Model.Choices[iChoice].OptionNames[iOption]))
+                            {
+                                @Html.Hidden($"optionsNames[{iChoice}][{iOption}]", Model.Choices[iChoice].OptionNames[iOption])
+                            }
+                            @if (!(Model.Choices[iChoice].OptionDescriptions.Count() - 1 < iOption))
+                            {
+                                @if (!string.IsNullOrEmpty(Model.Choices[iChoice].OptionDescriptions[iOption]))
+                                {
+                                    @Html.Hidden($"optionsDescriptions[{iChoice}][{iOption}]", Model.Choices[iChoice].OptionDescriptions[iOption])
+                                }
+                            }
+
+                            @Html.CheckBox($"optionsChosen[{iChoice}][{iOption}]")
+                            @Html.Raw(Model.Choices[iChoice].OptionNames[iOption])
+                        </p>
+                    </div>
+                }
+
+            }
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+}
+
+

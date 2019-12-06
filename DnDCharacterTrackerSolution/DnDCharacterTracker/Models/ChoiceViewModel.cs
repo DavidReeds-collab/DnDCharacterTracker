@@ -12,14 +12,16 @@ namespace DnDCharacterTracker.Models
         public int AllowedNumberOfChoices { get; set; }
         public List<string> OptionNames = new List<string>();
         public List<string> OptionDescriptions = new List<string>();
-        public string Descriminator { get; set; }
+        public List<bool> OptionsChosen = new List<bool>();
+        public List<bool> FreeOptions = new List<bool>();
+        public ChoiceType Descriminator { get; set; }
 
         
     }
 
     public class ChoicesCollection
     {
-        public List<ChoiceViewModel> Choices { get; set; }
+        public List<ChoiceViewModel> Choices { get; set; } = new List<ChoiceViewModel>();
         public Character Character { get; set; }
     }
 }

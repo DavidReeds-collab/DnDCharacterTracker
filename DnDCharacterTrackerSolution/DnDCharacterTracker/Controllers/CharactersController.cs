@@ -80,17 +80,40 @@ namespace DnDCharacterTracker.Controllers
             return View(character);
         }
 
-        public async Task<IActionResult> ChooseRace(int Id, int FK_Race)
+        public IActionResult Choice (int Id, ChoicesCollection choicesCollection, List<List<bool>> optionsChosen, List<List<string>> optionsNames, List<List<string>> optionsDescriptions)
+        {
+
+            for (int i = 0; i < choicesCollection.Choices.Count; i++)
+            {
+                choicesCollection.Choices[i].OptionNames = optionsNames[i];
+                if (optionsDescriptions.Count - 1 > i)
+                {
+                    choicesCollection.Choices[i].OptionDescriptions = optionsDescriptions[i];
+                }
+                choicesCollection.Choices[i].OptionsChosen = optionsChosen[i];
+            }
+
+            _choiceServices.ResolveChoice(Id, choicesCollection);
+
+            Character character = _characterServices.GetCharacterFromId(Id);
+
+            return View("Details", character);
+        }
+
+        public IActionResult ChooseRace(int Id, int FK_Race)
         {
             Character character = _characterServices.GetCharacterFromId(Id);
             _characterServices.SetCharacterRace(FK_Race, character);
 
-            if (await _choiceServices.DetectChoiceInRace(character.Race))
+            bool hasChoices = _choiceServices.DetectChoiceInRace(character.Race);
+
+            if (hasChoices)
             {
                 List<RaceFeature> raceFeatures = _context.RaceRacefeatures.Where(r => r.FK_Race == FK_Race).Select(r => r.RaceFeature).ToList();
 
+                ChoicesCollection choicesCollection = _choiceServices.CreateChoiceCollection(raceFeatures, character);
 
-                return View("ChoiceView", _choiceServices.CreateChoiceCollection(raceFeatures, character));
+                return View("ChoiceView", choicesCollection);
             }
 
             return View("Details", character);

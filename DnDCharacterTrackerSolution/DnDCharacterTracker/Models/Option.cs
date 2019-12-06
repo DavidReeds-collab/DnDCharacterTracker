@@ -16,5 +16,7 @@ namespace DnDCharacterTracker.Models
         public Choice Choice { get; set; }
         [ForeignKey("Choice")]
         public int FK_Choice { get; set; }
+
+        public bool free { get; set; }
     }
 }

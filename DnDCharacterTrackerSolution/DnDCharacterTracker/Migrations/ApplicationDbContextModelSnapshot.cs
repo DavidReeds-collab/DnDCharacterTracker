@@ -209,7 +209,7 @@ namespace DnDCharacterTracker.Migrations
                         {
                             Id = 1,
                             AllowedOptions = 1,
-                            Descriminator = "language"
+                            Descriminator = "RacialLanguage"
                         });
                 });
 
@@ -335,6 +335,8 @@ namespace DnDCharacterTracker.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<bool>("free");
+
                     b.HasKey("Id");
 
                     b.HasIndex("FK_Choice");
@@ -346,19 +348,29 @@ namespace DnDCharacterTracker.Migrations
                         {
                             Id = 1,
                             FK_Choice = 1,
-                            Name = "Infernal"
+                            Name = "Infernal",
+                            free = false
                         },
                         new
                         {
                             Id = 2,
                             FK_Choice = 1,
-                            Name = "Celestial"
+                            Name = "Celestial",
+                            free = false
                         },
                         new
                         {
                             Id = 3,
                             FK_Choice = 1,
-                            Name = "Dwarfish"
+                            Name = "Dwarvish",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 4,
+                            FK_Choice = 1,
+                            Name = "Common",
+                            free = true
                         });
                 });
 
@@ -1212,7 +1224,7 @@ namespace DnDCharacterTracker.Migrations
 
             modelBuilder.Entity("DnDCharacterTracker.Models.RaceFeatureChoice", b =>
                 {
-                    b.HasOne("DnDCharacterTracker.Models.Proficiency", "Choice")
+                    b.HasOne("DnDCharacterTracker.Models.Choice", "Choice")
                         .WithMany()
                         .HasForeignKey("FK_Choice")
                         .OnDelete(DeleteBehavior.Cascade);

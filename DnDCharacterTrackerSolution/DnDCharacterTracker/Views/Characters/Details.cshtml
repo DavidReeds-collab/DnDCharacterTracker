@@ -98,7 +98,18 @@
                 <a asp-action="ChooseClassSetup" asp-route-id="@Model.Id">Choose Class</a>
             </dd>
         }
-    </dl>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Proficiencies)
+        </dt>
+        <dd class="col-sm-10">
+            @foreach (var proficiency in Model.Proficiencies)
+            {
+
+                @Html.Raw(proficiency.Name)<br />
+
+            }
+        </dd>
+        </dl>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
