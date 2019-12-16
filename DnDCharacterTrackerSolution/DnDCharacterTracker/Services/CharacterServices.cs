@@ -82,6 +82,17 @@ namespace DnDCharacterTracker.Services
 
             character.Race = _context.Races.Where(r => r.Id == id).FirstOrDefault();
 
+            character.Proficiencies.AddRange(_context.RaceProficiencies.Where(r => r.FK_Race == id).Select(r => r.Proficiency).ToList());
+
+            foreach (var proficiency in character.Proficiencies)
+            {
+                _context.CharacterProficiencies.Add(new CharacterProficiency
+                {
+                    FK_Character = character.Id,
+                    FK_Proficiency = proficiency.Id
+                }); ;
+            }
+
             //applies all the ability scores from the race to the character.
             foreach (var raceAbilityScores in _context.raceAbilityScores.Where(ra => ra.FK_Race == character.Race.Id).ToList())
             {

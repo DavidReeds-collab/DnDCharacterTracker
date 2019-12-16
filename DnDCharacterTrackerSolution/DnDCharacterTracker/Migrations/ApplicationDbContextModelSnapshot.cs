@@ -210,6 +210,12 @@ namespace DnDCharacterTracker.Migrations
                             Id = 1,
                             AllowedOptions = 1,
                             Descriminator = "RacialLanguage"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AllowedOptions = 1,
+                            Descriminator = "RacialProficiency"
                         });
                 });
 
@@ -371,6 +377,27 @@ namespace DnDCharacterTracker.Migrations
                             FK_Choice = 1,
                             Name = "Common",
                             free = true
+                        },
+                        new
+                        {
+                            Id = 106,
+                            FK_Choice = 3,
+                            Name = "Smith’s tools",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 107,
+                            FK_Choice = 3,
+                            Name = "Brewer’s supplies",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 108,
+                            FK_Choice = 3,
+                            Name = "Mason’s tools",
+                            free = false
                         });
                 });
 
@@ -556,6 +583,271 @@ namespace DnDCharacterTracker.Migrations
                         {
                             Id = 34,
                             Name = "Heavy Armor"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            Name = "Club"
+                        },
+                        new
+                        {
+                            Id = 36,
+                            Name = "Dagger"
+                        },
+                        new
+                        {
+                            Id = 37,
+                            Name = "Greatclub"
+                        },
+                        new
+                        {
+                            Id = 38,
+                            Name = "Handaxe"
+                        },
+                        new
+                        {
+                            Id = 39,
+                            Name = "Javelin"
+                        },
+                        new
+                        {
+                            Id = 40,
+                            Name = "Light Hammer"
+                        },
+                        new
+                        {
+                            Id = 41,
+                            Name = "Mace"
+                        },
+                        new
+                        {
+                            Id = 42,
+                            Name = "Quarterstaff"
+                        },
+                        new
+                        {
+                            Id = 43,
+                            Name = "Sickle"
+                        },
+                        new
+                        {
+                            Id = 44,
+                            Name = "Spear"
+                        },
+                        new
+                        {
+                            Id = 45,
+                            Name = "Crossbow, light"
+                        },
+                        new
+                        {
+                            Id = 46,
+                            Name = "Dart"
+                        },
+                        new
+                        {
+                            Id = 47,
+                            Name = "Shortbow"
+                        },
+                        new
+                        {
+                            Id = 48,
+                            Name = "Sling"
+                        },
+                        new
+                        {
+                            Id = 49,
+                            Name = "Battleaxe"
+                        },
+                        new
+                        {
+                            Id = 50,
+                            Name = "Flail"
+                        },
+                        new
+                        {
+                            Id = 51,
+                            Name = "Greataxe"
+                        },
+                        new
+                        {
+                            Id = 52,
+                            Name = "Greatsword"
+                        },
+                        new
+                        {
+                            Id = 53,
+                            Name = "Halberd"
+                        },
+                        new
+                        {
+                            Id = 54,
+                            Name = "Lance"
+                        },
+                        new
+                        {
+                            Id = 55,
+                            Name = "Longsword"
+                        },
+                        new
+                        {
+                            Id = 56,
+                            Name = "Maul"
+                        },
+                        new
+                        {
+                            Id = 57,
+                            Name = "Morningstar"
+                        },
+                        new
+                        {
+                            Id = 58,
+                            Name = "Pike"
+                        },
+                        new
+                        {
+                            Id = 59,
+                            Name = "Rapier"
+                        },
+                        new
+                        {
+                            Id = 60,
+                            Name = "Scimitar"
+                        },
+                        new
+                        {
+                            Id = 61,
+                            Name = "Shortsword"
+                        },
+                        new
+                        {
+                            Id = 62,
+                            Name = "Trident"
+                        },
+                        new
+                        {
+                            Id = 63,
+                            Name = "War Pick"
+                        },
+                        new
+                        {
+                            Id = 64,
+                            Name = "Warhammer"
+                        },
+                        new
+                        {
+                            Id = 65,
+                            Name = "Whip"
+                        },
+                        new
+                        {
+                            Id = 66,
+                            Name = "Shortsword"
+                        },
+                        new
+                        {
+                            Id = 67,
+                            Name = "Trident"
+                        },
+                        new
+                        {
+                            Id = 68,
+                            Name = "War Pick"
+                        },
+                        new
+                        {
+                            Id = 69,
+                            Name = "Warhammer"
+                        },
+                        new
+                        {
+                            Id = 70,
+                            Name = "Whip"
+                        },
+                        new
+                        {
+                            Id = 71,
+                            Name = "Alchemist’s supplies"
+                        },
+                        new
+                        {
+                            Id = 72,
+                            Name = "Brewer’s supplies"
+                        },
+                        new
+                        {
+                            Id = 73,
+                            Name = "Calligrapher's Supplies"
+                        },
+                        new
+                        {
+                            Id = 74,
+                            Name = "Carpenter’s tools"
+                        },
+                        new
+                        {
+                            Id = 75,
+                            Name = "Cartographer’s tools"
+                        },
+                        new
+                        {
+                            Id = 76,
+                            Name = "Cobbler’s tools"
+                        },
+                        new
+                        {
+                            Id = 77,
+                            Name = "Cook’s utensils"
+                        },
+                        new
+                        {
+                            Id = 78,
+                            Name = "Glassblower’s tools"
+                        },
+                        new
+                        {
+                            Id = 79,
+                            Name = "Jeweler’s tools"
+                        },
+                        new
+                        {
+                            Id = 80,
+                            Name = "Leatherworker’s tools"
+                        },
+                        new
+                        {
+                            Id = 81,
+                            Name = "Mason’s tools"
+                        },
+                        new
+                        {
+                            Id = 82,
+                            Name = "Painter’s supplies"
+                        },
+                        new
+                        {
+                            Id = 83,
+                            Name = "Potter’s tools"
+                        },
+                        new
+                        {
+                            Id = 84,
+                            Name = "Smith’s tools"
+                        },
+                        new
+                        {
+                            Id = 85,
+                            Name = "Tinker’s tools"
+                        },
+                        new
+                        {
+                            Id = 86,
+                            Name = "Weaver’s tools"
+                        },
+                        new
+                        {
+                            Id = 87,
+                            Name = "Woodcarver’s tools"
                         });
                 });
 
@@ -656,6 +948,13 @@ namespace DnDCharacterTracker.Migrations
                             FK_AbilityScore = 6,
                             FK_Race = 2,
                             amount = 1
+                        },
+                        new
+                        {
+                            Id = -7,
+                            FK_AbilityScore = 3,
+                            FK_Race = 3,
+                            amount = 2
                         });
                 });
 
@@ -709,6 +1008,72 @@ namespace DnDCharacterTracker.Migrations
                             Id = 6,
                             Description = "You can speak, read, and write Common and one extra language of your choice. Humans typically learn the Languages of other peoples they deal with, including obscure dialects. They are fond of sprinkling their Speech with words borrowed from other tongues: Orc curses, Elvish musical expressions, Dwarvish Military phrases, and so on.",
                             Name = "Languages"
+                        },
+                        new
+                        {
+                            Id = 101,
+                            Description = "Your Constitution score increases by 2.",
+                            Name = "Ability Score Increase"
+                        },
+                        new
+                        {
+                            Id = 102,
+                            Description = "Dwarves mature at the same rate as Humans, but they’re considered young until they reach the age of 50. On average, they live about 350 years.",
+                            Name = "Age"
+                        },
+                        new
+                        {
+                            Id = 103,
+                            Description = "Most Dwarves are lawful, believing firmly in the benefits of a well-ordered society. They tend toward good as well, with a strong sense of Fair Play and a belief that everyone deserves to share in the benefits of a just order.",
+                            Name = "Alignment"
+                        },
+                        new
+                        {
+                            Id = 104,
+                            Description = "Dwarves stand between 4 and 5 feet tall and average about 150 pounds. Your size is Medium.",
+                            Name = "Size"
+                        },
+                        new
+                        {
+                            Id = 105,
+                            Description = "Your base walking speed is 25 feet. Your speed is not reduced by wearing Heavy Armor.",
+                            Name = "Speed"
+                        },
+                        new
+                        {
+                            Id = 106,
+                            Description = "Accustomed to life Underground, you have superior vision in dark and dim Conditions. You can see in dim light within 60 feet of you as if it were bright light, and in Darkness as if it were dim light. You can’t discern color in Darkness, only Shades of Gray.",
+                            Name = "Darkvision"
+                        },
+                        new
+                        {
+                            Id = 107,
+                            Description = "You have advantage on Saving Throws against poison, and you have Resistance against poison damage.",
+                            Name = "Dwarven Resilience"
+                        },
+                        new
+                        {
+                            Id = 108,
+                            Description = " You have proficiency with the Battleaxe, Handaxe, Light Hammer, and Warhammer.",
+                            Name = "Dwarven Combat Training"
+                        },
+                        new
+                        {
+                            Id = 109,
+                            Description = "You gain proficiency with the artisan’s tools of your choice: smith’s tools, brewer’s supplies, or mason’s tools.",
+                            Name = "Tool Proficiency"
+                        },
+                        new
+                        {
+                            Id = 110,
+                            Description = "Whenever you make an Intelligence (History) check related to the Origin of stonework, you are considered proficient in the History skill and add double your Proficiency Bonus to the check, instead of your normal Proficiency Bonus.",
+                            Name = "Stonecunning"
+                        },
+                        new
+                        {
+                            Id = 111,
+                            Description = "You can speak, read, and write Common and Dwarvish. Dwarvish is full of hard consonants and guttural sounds, and those characteristics spill over into whatever other language a dwarf might speak.",
+                            Name = "Languages"
                         });
                 });
 
@@ -736,6 +1101,57 @@ namespace DnDCharacterTracker.Migrations
                             Id = 1,
                             FK_Choice = 1,
                             FK_RaceFeature = 6
+                        },
+                        new
+                        {
+                            Id = 109,
+                            FK_Choice = 3,
+                            FK_RaceFeature = 109
+                        });
+                });
+
+            modelBuilder.Entity("DnDCharacterTracker.Models.RaceProficiency", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("FK_Proficiency");
+
+                    b.Property<int>("FK_Race");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FK_Proficiency");
+
+                    b.HasIndex("FK_Race");
+
+                    b.ToTable("RaceProficiencies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 101,
+                            FK_Proficiency = 49,
+                            FK_Race = 3
+                        },
+                        new
+                        {
+                            Id = 102,
+                            FK_Proficiency = 38,
+                            FK_Race = 3
+                        },
+                        new
+                        {
+                            Id = 103,
+                            FK_Proficiency = 40,
+                            FK_Race = 3
+                        },
+                        new
+                        {
+                            Id = 104,
+                            FK_Proficiency = 69,
+                            FK_Race = 3
                         });
                 });
 
@@ -793,6 +1209,72 @@ namespace DnDCharacterTracker.Migrations
                             Id = 6,
                             FK_Race = 2,
                             FK_RaceFeature = 6
+                        },
+                        new
+                        {
+                            Id = 101,
+                            FK_Race = 3,
+                            FK_RaceFeature = 101
+                        },
+                        new
+                        {
+                            Id = 102,
+                            FK_Race = 3,
+                            FK_RaceFeature = 102
+                        },
+                        new
+                        {
+                            Id = 103,
+                            FK_Race = 3,
+                            FK_RaceFeature = 103
+                        },
+                        new
+                        {
+                            Id = 104,
+                            FK_Race = 3,
+                            FK_RaceFeature = 104
+                        },
+                        new
+                        {
+                            Id = 105,
+                            FK_Race = 3,
+                            FK_RaceFeature = 105
+                        },
+                        new
+                        {
+                            Id = 106,
+                            FK_Race = 3,
+                            FK_RaceFeature = 106
+                        },
+                        new
+                        {
+                            Id = 107,
+                            FK_Race = 3,
+                            FK_RaceFeature = 107
+                        },
+                        new
+                        {
+                            Id = 108,
+                            FK_Race = 3,
+                            FK_RaceFeature = 108
+                        },
+                        new
+                        {
+                            Id = 109,
+                            FK_Race = 3,
+                            FK_RaceFeature = 109
+                        },
+                        new
+                        {
+                            Id = 110,
+                            FK_Race = 3,
+                            FK_RaceFeature = 110
+                        },
+                        new
+                        {
+                            Id = 111,
+                            FK_Race = 3,
+                            FK_RaceFeature = 111
                         });
                 });
 
@@ -1232,6 +1714,19 @@ namespace DnDCharacterTracker.Migrations
                     b.HasOne("DnDCharacterTracker.Models.RaceFeature", "RaceFeature")
                         .WithMany()
                         .HasForeignKey("FK_RaceFeature")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DnDCharacterTracker.Models.RaceProficiency", b =>
+                {
+                    b.HasOne("DnDCharacterTracker.Models.Proficiency", "Proficiency")
+                        .WithMany()
+                        .HasForeignKey("FK_Proficiency")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DnDCharacterTracker.Models.Character", "Race")
+                        .WithMany()
+                        .HasForeignKey("FK_Race")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

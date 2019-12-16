@@ -151,6 +151,16 @@ namespace DnDCharacterTracker.Services
                             }); ;
                         }                        
                         break;
+                    case ChoiceType.RacialProficiency:
+                        foreach (var option in options)
+                        {
+                            _context.CharacterProficiencies.Add(new CharacterProficiency
+                            {
+                                FK_Character = Id,
+                                FK_Proficiency = _context.Proficiencies.Where(p => p.Name == option.Name).Select(p => p.Id).FirstOrDefault()                                
+                            }); ;
+                        }                        
+                        break;
                     default:
                         break;
                 }
