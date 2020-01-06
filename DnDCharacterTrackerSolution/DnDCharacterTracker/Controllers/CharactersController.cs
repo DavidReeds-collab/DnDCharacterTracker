@@ -16,11 +16,13 @@ namespace DnDCharacterTracker.Controllers
         private readonly ApplicationDbContext _context;
         private ICharacterServices _characterServices;
         private IChoiceServices _choiceServices;
-        public CharactersController(ApplicationDbContext context, ICharacterServices characterServices, IChoiceServices choiceServices)
+        private IClassServices _classServies;
+        public CharactersController(ApplicationDbContext context, ICharacterServices characterServices, IChoiceServices choiceServices, IClassServices classServices)
         {
             _context = context;
             _characterServices = characterServices;
             _choiceServices = choiceServices;
+            _classServies = classServices;
         }
 
         // GET: Characters
@@ -80,7 +82,7 @@ namespace DnDCharacterTracker.Controllers
             return View(character);
         }
 
-        public IActionResult Choice (int Id, ChoicesCollection choicesCollection, List<List<bool>> optionsChosen, List<List<string>> optionsNames, List<List<string>> optionsDescriptions)
+        public IActionResult Choice (int Id, ChoicesCollection choicesCollection, List<List<bool>> optionsChosen, List<List<string>> optionsNames, List<List<string>> optionsDescriptions, List<List<int>> OptionIds)
         {
 
             for (int i = 0; i < choicesCollection.Choices.Count; i++)
@@ -91,6 +93,7 @@ namespace DnDCharacterTracker.Controllers
                     choicesCollection.Choices[i].OptionDescriptions = optionsDescriptions[i];
                 }
                 choicesCollection.Choices[i].OptionsChosen = optionsChosen[i];
+                choicesCollection.Choices[i].OptionIds = OptionIds[i];
             }
 
             _choiceServices.ResolveChoice(Id, choicesCollection);
@@ -130,7 +133,24 @@ namespace DnDCharacterTracker.Controllers
         public async Task<IActionResult> ChooseClass(int Id, int ClassId)
         {
             Character character = _characterServices.GetCharacterFromId(Id);
+
+            Class _class = _context.Classes.Where(c => c.Id == ClassId).FirstOrDefault();
+
+            int levelGained = _characterServices.GetClassLevel(character, _class);
+
+            bool hasChoice = _choiceServices.DetectChoicesInClass(_class, (levelGained + 1));
+
             _characterServices.AddCharacterClass(ClassId, character);
+
+            if (hasChoice)
+                {
+                List<Feature> classFeatures = _context.ClassFeatures.Where(f => f.FK_Class == ClassId).Select(f => f.Feature).ToList();
+
+                ChoicesCollection choicesCollection = _choiceServices.CreateChoiceCollection(classFeatures, character);
+
+                return View("ChoiceView", choicesCollection);
+                }
+
             return View("Details", character);
         }
 

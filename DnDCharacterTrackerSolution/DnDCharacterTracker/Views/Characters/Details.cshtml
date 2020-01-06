@@ -17,6 +17,12 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Level)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Level)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Strenght)
         </dt>
         <dd class="col-sm-10">
@@ -85,12 +91,26 @@
         </dt>
         @if (Model.ClassIntermediaries.Count != 0)
         {
-            @foreach (CharacterClass Class in Model.ClassIntermediaries)
+            <dd class="col-sm-10">
+                <a asp-action="ChooseClassSetup" asp-route-id="@Model.Id">Level up</a>
+            </dd>
+
+            @for (int i = 0; i < (Model.ClassIntermediaries.Count); i++)
             {
                 <dd class="col-sm-10">
-                    @Html.Raw(Class.Class.Name + ", level " + Class.Level.ToString())
+                    @Html.Raw(Model.ClassIntermediaries[i].Class.Name + ", level " + Model.ClassIntermediaries[i].Level.ToString())
                 </dd>
+                foreach (var clasFeature in Model.ClassFeatures)
+                {
+                    <dt class="col-sm-2">
+                        @Html.Raw(clasFeature.Name)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.Raw(clasFeature.Description)
+                    </dd>
+                }
             }
+
         }
         else
         {
@@ -108,8 +128,14 @@
                 @Html.Raw(proficiency.Name)<br />
 
             }
+            @foreach (var proficiency in Model.SkillProficiencies)
+            {
+
+                @Html.Raw(proficiency.Skill.Name)<br />
+
+            }
         </dd>
-        </dl>
+    </dl>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |

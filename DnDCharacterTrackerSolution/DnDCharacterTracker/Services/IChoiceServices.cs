@@ -13,9 +13,13 @@ namespace DnDCharacterTracker.Services
 
         bool DetectChoiceInRace(Race race);
 
+        bool DetectChoicesInClass(Class _class, int Level);
+
         ChoiceViewModel CreateChoiceViewModelFromDB(Choice choice);
 
         ChoicesCollection CreateChoiceCollection(List<RaceFeature> raceFeatures, Character character);
+
+        ChoicesCollection CreateChoiceCollection(List<Feature> ClassFeatures, Character character);
 
         void ResolveChoice(int Id, ChoicesCollection choicesCollection);
     }

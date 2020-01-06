@@ -20,5 +20,7 @@ namespace DnDCharacterTracker.Services
 
         void ApplyAbilityScoreImprovements(Character character, RaceAbilityScores raceAbilityScores);
 
+        int GetClassLevel(Character character, Class _class);
+
     }
 }

@@ -13,7 +13,7 @@ namespace DnDCharacterTracker.Models
         public int Id { get; set; }
         [ForeignKey("Race")]
         public int FK_Race { get; set; }
-        public Character Race { get; set; }
+        public Race Race { get; set; }
         [ForeignKey("Proficiency")]
         public int FK_Proficiency { get; set; }
         public Proficiency Proficiency { get; set; }

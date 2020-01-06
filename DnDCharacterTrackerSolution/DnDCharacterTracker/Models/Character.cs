@@ -14,6 +14,7 @@ namespace DnDCharacterTracker.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
+        public int Level { get; set; }
         public int Strenght { get; set; }
         public int Dexterity { get; set; }
         public int Constitution { get; set; }
@@ -25,11 +26,15 @@ namespace DnDCharacterTracker.Models
         public Race Race { get; set; }
         [NotMapped]
         public List<RaceFeature> RaceFeatures { get; set; } = new List<RaceFeature>();
+        [NotMapped]
+        public List<Feature> ClassFeatures { get; set; } = new List<Feature>();
         public List<Class> Classes { get; set; } = new List<Class>();
         [NotMapped]
         public List<CharacterClass> ClassIntermediaries { get; set; } = new List<CharacterClass>();
         [NotMapped]
         public List<Proficiency> Proficiencies { get; set; } = new List<Proficiency>();
+        [NotMapped]
+        public List<CharacterSkill> SkillProficiencies { get; set; } = new List<CharacterSkill>();
 
 
         public Character()

@@ -14,6 +14,7 @@ namespace DnDCharacterTracker.Models
         public List<string> OptionDescriptions = new List<string>();
         public List<bool> OptionsChosen = new List<bool>();
         public List<bool> FreeOptions = new List<bool>();
+        public List<int> OptionIds = new List<int>();
         public ChoiceType Descriminator { get; set; }
 
         
@@ -23,5 +24,6 @@ namespace DnDCharacterTracker.Models
     {
         public List<ChoiceViewModel> Choices { get; set; } = new List<ChoiceViewModel>();
         public Character Character { get; set; }
+        public int FK_Class { get; set; }
     }
 }

@@ -47,6 +47,7 @@ namespace DnDCharacterTracker
 
             services.AddTransient<ICharacterServices, CharacterServices>();
             services.AddTransient<IChoiceServices, ChoiceServices>();
+            services.AddTransient<IClassServices, ClassServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -23,6 +23,15 @@ namespace DnDCharacterTracker.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            #region Dice
+            modelBuilder.Entity<Dice>().HasData(new Dice { Id = 1, Name = "D4" });
+            modelBuilder.Entity<Dice>().HasData(new Dice { Id = 2, Name = "D6" });
+            modelBuilder.Entity<Dice>().HasData(new Dice { Id = 3, Name = "D8" });
+            modelBuilder.Entity<Dice>().HasData(new Dice { Id = 4, Name = "D10" });
+            modelBuilder.Entity<Dice>().HasData(new Dice { Id = 5, Name = "D12" });
+            modelBuilder.Entity<Dice>().HasData(new Dice { Id = 6, Name = "D20" });
+            modelBuilder.Entity<Dice>().HasData(new Dice { Id = 7, Name = "D100" });
+            #endregion
             #region Ability scores
             modelBuilder.Entity<AbilityScore>().HasData(new AbilityScore { Id = 1, Name = "Strenght" });
             modelBuilder.Entity<AbilityScore>().HasData(new AbilityScore { Id = 2, Name = "Dexterity" });
@@ -86,7 +95,7 @@ namespace DnDCharacterTracker.Data
 
             modelBuilder.Entity<Proficiency>().HasData(new Proficiency { Id = 31, Name = "Light Armor" });
             modelBuilder.Entity<Proficiency>().HasData(new Proficiency { Id = 32, Name = "Medium Armor" });
-            modelBuilder.Entity<Proficiency>().HasData(new Proficiency { Id = 33, Name = "Simple Weapons" });
+            modelBuilder.Entity<Proficiency>().HasData(new Proficiency { Id = 33, Name = "Shields" });
             modelBuilder.Entity<Proficiency>().HasData(new Proficiency { Id = 34, Name = "Heavy Armor" });
 
             modelBuilder.Entity<Proficiency>().HasData(new Proficiency { Id = 35, Name = "Club" });
@@ -150,20 +159,18 @@ namespace DnDCharacterTracker.Data
 
             #endregion
             #region Races
-
-
             modelBuilder.Entity<Race>().HasData(new Race { Id = 1, Name = "Not chosen yet" });
             #region Human
             modelBuilder.Entity<Race>().HasData(new Race { Id = 2, Name = "Human", Speed = 30 });
-            modelBuilder.Entity<RaceAbilityScores>().HasData(new RaceAbilityScores { Id = -1, FK_AbilityScore = 1, FK_Race = 2, amount = 1});
+            modelBuilder.Entity<RaceAbilityScores>().HasData(new RaceAbilityScores { Id = -1, FK_AbilityScore = 1, FK_Race = 2, amount = 1 });
             modelBuilder.Entity<RaceAbilityScores>().HasData(new RaceAbilityScores { Id = -2, FK_AbilityScore = 2, FK_Race = 2, amount = 1 });
             modelBuilder.Entity<RaceAbilityScores>().HasData(new RaceAbilityScores { Id = -3, FK_AbilityScore = 3, FK_Race = 2, amount = 1 });
             modelBuilder.Entity<RaceAbilityScores>().HasData(new RaceAbilityScores { Id = -4, FK_AbilityScore = 4, FK_Race = 2, amount = 1 });
             modelBuilder.Entity<RaceAbilityScores>().HasData(new RaceAbilityScores { Id = -5, FK_AbilityScore = 5, FK_Race = 2, amount = 1 });
             modelBuilder.Entity<RaceAbilityScores>().HasData(new RaceAbilityScores { Id = -6, FK_AbilityScore = 6, FK_Race = 2, amount = 1 });
 
-            modelBuilder.Entity<RaceFeature>().HasData(new RaceFeature { Id = 1, Name = "Ability Score Increase", Description = "Your Ability Scores each increase by 1."});
-            modelBuilder.Entity<RaceRacefeature>().HasData(new RaceRacefeature { Id = 1, FK_Race = 2, FK_RaceFeature = 1});
+            modelBuilder.Entity<RaceFeature>().HasData(new RaceFeature { Id = 1, Name = "Ability Score Increase", Description = "Your Ability Scores each increase by 1." });
+            modelBuilder.Entity<RaceRacefeature>().HasData(new RaceRacefeature { Id = 1, FK_Race = 2, FK_RaceFeature = 1 });
 
             modelBuilder.Entity<RaceFeature>().HasData(new RaceFeature { Id = 2, Name = "Age", Description = "Humans reach Adulthood in their late teens and live less than a century." });
             modelBuilder.Entity<RaceRacefeature>().HasData(new RaceRacefeature { Id = 2, FK_Race = 2, FK_RaceFeature = 2 });
@@ -179,7 +186,7 @@ namespace DnDCharacterTracker.Data
 
             modelBuilder.Entity<RaceFeature>().HasData(new RaceFeature { Id = 6, Name = "Languages", Description = "You can speak, read, and write Common and one extra language of your choice. Humans typically learn the Languages of other peoples they deal with, including obscure dialects. They are fond of sprinkling their Speech with words borrowed from other tongues: Orc curses, Elvish musical expressions, Dwarvish Military phrases, and so on." });
             modelBuilder.Entity<Choice>().HasData(new Choice { Id = 1, AllowedOptions = 1, Descriminator = "RacialLanguage" });
-            modelBuilder.Entity<RaceFeatureChoice>().HasData(new RaceFeatureChoice { Id = 1, FK_RaceFeature = 6, FK_Choice = 1 });            
+            modelBuilder.Entity<RaceFeatureChoice>().HasData(new RaceFeatureChoice { Id = 1, FK_RaceFeature = 6, FK_Choice = 1 });
             modelBuilder.Entity<Option>().HasData(new Option { Id = 1, Name = "Infernal", FK_Choice = 1 });
             modelBuilder.Entity<Option>().HasData(new Option { Id = 2, Name = "Celestial", FK_Choice = 1 });
             modelBuilder.Entity<Option>().HasData(new Option { Id = 3, Name = "Dwarvish", FK_Choice = 1 });
@@ -213,11 +220,11 @@ namespace DnDCharacterTracker.Data
             modelBuilder.Entity<RaceRacefeature>().HasData(new RaceRacefeature { Id = 107, FK_Race = 3, FK_RaceFeature = 107 });
 
             modelBuilder.Entity<RaceFeature>().HasData(new RaceFeature { Id = 108, Name = "Dwarven Combat Training", Description = " You have proficiency with the Battleaxe, Handaxe, Light Hammer, and Warhammer." });
-            modelBuilder.Entity<RaceRacefeature>().HasData(new RaceRacefeature { Id = 108, FK_Race = 3, FK_RaceFeature = 108 });
-            modelBuilder.Entity<RaceProficiency>().HasData(new RaceProficiency { Id = 101, FK_Race = 3, FK_Proficiency = 49 });
-            modelBuilder.Entity<RaceProficiency>().HasData(new RaceProficiency { Id = 102, FK_Race = 3, FK_Proficiency = 38 });
-            modelBuilder.Entity<RaceProficiency>().HasData(new RaceProficiency { Id = 103, FK_Race = 3, FK_Proficiency = 40 });
-            modelBuilder.Entity<RaceProficiency>().HasData(new RaceProficiency { Id = 104, FK_Race = 3, FK_Proficiency =  69});
+            modelBuilder.Entity<RaceRacefeature>().HasData(new RaceRacefeature { Id = 118, FK_Race = 3, FK_RaceFeature = 108 });
+            modelBuilder.Entity<RaceProficiency>().HasData(new RaceProficiency { Id = 111, FK_Race = 3, FK_Proficiency = 49 });
+            modelBuilder.Entity<RaceProficiency>().HasData(new RaceProficiency { Id = 112, FK_Race = 3, FK_Proficiency = 38 });
+            modelBuilder.Entity<RaceProficiency>().HasData(new RaceProficiency { Id = 113, FK_Race = 3, FK_Proficiency = 40 });
+            modelBuilder.Entity<RaceProficiency>().HasData(new RaceProficiency { Id = 114, FK_Race = 3, FK_Proficiency = 69 });
 
             modelBuilder.Entity<RaceFeature>().HasData(new RaceFeature { Id = 109, Name = "Tool Proficiency", Description = "You gain proficiency with the artisan’s tools of your choice: smith’s tools, brewer’s supplies, or mason’s tools." });
             modelBuilder.Entity<Choice>().HasData(new Choice { Id = 3, AllowedOptions = 1, Descriminator = "RacialProficiency" });
@@ -235,11 +242,56 @@ namespace DnDCharacterTracker.Data
 
             #endregion
             #endregion
+            #region Classes
             modelBuilder.Entity<Class>().HasData(new Class { Id = 1, Name = "Not chosen yet" });
-            modelBuilder.Entity<Class>().HasData(new Class { Id = 2, Name = "Fighter" });
+            #region Fighter
+            modelBuilder.Entity<Class>().HasData(new Class { Id = 2, Name = "Fighter", FK_Dice = 4 });
+
+            modelBuilder.Entity<ClassProficiency>().HasData(new ClassProficiency { Id = 1, FK_Class = 1, FK_Proficiency = 31 });
+            modelBuilder.Entity<ClassProficiency>().HasData(new ClassProficiency { Id = 2, FK_Class = 1, FK_Proficiency = 32 });
+            modelBuilder.Entity<ClassProficiency>().HasData(new ClassProficiency { Id = 3, FK_Class = 1, FK_Proficiency = 34 });
+            modelBuilder.Entity<ClassProficiency>().HasData(new ClassProficiency { Id = 4, FK_Class = 1, FK_Proficiency = 33 });
+            modelBuilder.Entity<ClassProficiency>().HasData(new ClassProficiency { Id = 5, FK_Class = 1, FK_Proficiency = 29 });
+            modelBuilder.Entity<ClassProficiency>().HasData(new ClassProficiency { Id = 6, FK_Class = 1, FK_Proficiency = 30 });
+
+            modelBuilder.Entity<ClassAbilities>().HasData(new ClassAbilities { Id = 1, FK_Class = 1, FK_AbilityScore = 1 });
+            modelBuilder.Entity<ClassAbilities>().HasData(new ClassAbilities { Id = 2, FK_Class = 1, FK_AbilityScore = 3 });
+
+            modelBuilder.Entity<Feature>().HasData(new Feature { Id = 10001, Name = "Skills", Description = "Choose two Skills from Acrobatics, Animal Handling, Athletics, History, Insight, Intimidation, Perception, and Survival." });
+            modelBuilder.Entity<ClassFeature>().HasData(new ClassFeature { Id = 10001, FK_Class = 2, FK_Feature = 10001, Level = 1 });
+            modelBuilder.Entity<Choice>().HasData(new Choice { Id = 10001, AllowedOptions = 2, Descriminator = "ClassSkillChoice" });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 10001, FK_Choice = 10001, Name = "Acrobatics" });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 10002, FK_Choice = 10001, Name = "Animal Handling" });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 10003, FK_Choice = 10001, Name = "Athletics" });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 10004, FK_Choice = 10001, Name = "History" });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 10005, FK_Choice = 10001, Name = "Insight" });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 10006, FK_Choice = 10001, Name = "Intimidation" });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 10007, FK_Choice = 10001, Name = "Perception" });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 10008, FK_Choice = 10001, Name = "Survival" });
+            modelBuilder.Entity<FeatureChoice>().HasData(new FeatureChoice { Id = 10001, FK_Feature = 10001, FK_Choice = 10001 });
+
+            modelBuilder.Entity<Feature>().HasData(new Feature { Id = 10002, Name = "Fighting Style", Description = "You adopt a particular style of fighting as your specialty. Choose a Fighting Style from the list of optional features. You can't take the same Fighting Style option more than once, even if you get to choose again." });
+            modelBuilder.Entity<ClassFeature>().HasData(new ClassFeature { Id = 10002, FK_Class = 2, FK_Feature = 10002, Level = 1 });
+            modelBuilder.Entity<Choice>().HasData(new Choice { Id = 10002, AllowedOptions = 1, Descriminator = "ClassFeature" });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 10009, FK_Choice = 10002, Name = "Archery", Description = "You gain a +2 bonus to Attack rolls you make with Ranged Weapons." });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 10010, FK_Choice = 10002, Name = "Defense", Description = "While you are wearing armor, you gain a +1 bonus to AC." });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 10011, FK_Choice = 10002, Name = "Dueling", Description = "When you are wielding a melee weapon in one hand and no other Weapons, you gain a +2 bonus to Damage Rolls with that weapon." });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 10012, FK_Choice = 10002, Name = "Great Weapon Fighting", Description = "When you roll a 1 or 2 on a damage die for an Attack you make with a melee weapon that you are wielding with two hands, you can reroll the die and must use the new roll, even if the new roll is a 1 or a 2. The weapon must have the Two-Handed or Versatile property for you to gain this benefit." });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 10013, FK_Choice = 10002, Name = "Protection", Description = "When a creature you can see attacks a target other than you that is within 5 feet of you, you can use your Reaction to impose disadvantage on the Attack roll. You must be wielding a Shield." });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 10014, FK_Choice = 10002, Name = "Two-Weapon Fighting", Description = "When you engage in two-weapon fighting, you can add your ability modifier to the damage of the second Attack." });
+            modelBuilder.Entity<FeatureChoice>().HasData(new FeatureChoice { Id = 10002, FK_Feature = 10002, FK_Choice = 10002 });
+
+
+            #endregion
+
+
+
             modelBuilder.Entity<Class>().HasData(new Class { Id = 3, Name = "Paladin" });
+            #endregion
+
         }
 
+        public DbSet<DnDCharacterTracker.Models.LogItem> Log { get; set; }
         public DbSet<DnDCharacterTracker.Models.Character> Character { get; set; }
         public DbSet<DnDCharacterTracker.Models.Race> Races { get; set; }
         public DbSet<DnDCharacterTracker.Models.RaceRacefeature> RaceRacefeatures { get; set; }
@@ -263,8 +315,8 @@ namespace DnDCharacterTracker.Data
         public DbSet<DnDCharacterTracker.Models.Option> Option { get; set; }
         public DbSet<DnDCharacterTracker.Models.RaceFeatureChoice> RaceFeatureChoices { get; set; }
         public DbSet<DnDCharacterTracker.Models.RaceProficiency>  RaceProficiencies { get; set; }
-
-
-
+        public DbSet<DnDCharacterTracker.Models.ClassProficiency> ClassProficiencies { get; set; }
+        public DbSet<DnDCharacterTracker.Models.Decision> Decisions { get; set; }
+        public DbSet<DnDCharacterTracker.Models.DecisionOption> DecisionOptions { get; set; }
     }
 }

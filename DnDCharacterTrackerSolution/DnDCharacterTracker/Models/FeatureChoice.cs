@@ -14,8 +14,8 @@ namespace DnDCharacterTracker.Models
         [ForeignKey("Feature")]
         public int FK_Feature { get; set; }
         public Feature Feature { get; set; }
-        [ForeignKey("Option")]
-        public int FK_Option { get; set; }
-        public Option Option { get; set; }
+        [ForeignKey("Choice")]
+        public int FK_Choice { get; set; }
+        public Choice Choice { get; set; }
     }
 }

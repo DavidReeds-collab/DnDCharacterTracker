@@ -80,6 +80,8 @@ namespace DnDCharacterTracker.Migrations
 
                     b.Property<int>("Intelligence");
 
+                    b.Property<int>("Level");
+
                     b.Property<string>("Name");
 
                     b.Property<int>("Strenght");
@@ -216,6 +218,18 @@ namespace DnDCharacterTracker.Migrations
                             Id = 3,
                             AllowedOptions = 1,
                             Descriminator = "RacialProficiency"
+                        },
+                        new
+                        {
+                            Id = 10001,
+                            AllowedOptions = 2,
+                            Descriminator = "ClassSkillChoice"
+                        },
+                        new
+                        {
+                            Id = 10002,
+                            AllowedOptions = 1,
+                            Descriminator = "ClassFeature"
                         });
                 });
 
@@ -227,11 +241,17 @@ namespace DnDCharacterTracker.Migrations
 
                     b.Property<int?>("CharacterId");
 
+                    b.Property<int>("FK_Dice");
+
+                    b.Property<int?>("HitDiceId");
+
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CharacterId");
+
+                    b.HasIndex("HitDiceId");
 
                     b.ToTable("Classes");
 
@@ -239,16 +259,19 @@ namespace DnDCharacterTracker.Migrations
                         new
                         {
                             Id = 1,
+                            FK_Dice = 0,
                             Name = "Not chosen yet"
                         },
                         new
                         {
                             Id = 2,
+                            FK_Dice = 4,
                             Name = "Fighter"
                         },
                         new
                         {
                             Id = 3,
+                            FK_Dice = 0,
                             Name = "Paladin"
                         });
                 });
@@ -270,6 +293,20 @@ namespace DnDCharacterTracker.Migrations
                     b.HasIndex("FK_Class");
 
                     b.ToTable("ClassAbilities");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FK_AbilityScore = 1,
+                            FK_Class = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            FK_AbilityScore = 3,
+                            FK_Class = 1
+                        });
                 });
 
             modelBuilder.Entity("DnDCharacterTracker.Models.ClassFeature", b =>
@@ -291,6 +328,173 @@ namespace DnDCharacterTracker.Migrations
                     b.HasIndex("FK_Feature");
 
                     b.ToTable("ClassFeatures");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 10001,
+                            FK_Class = 2,
+                            FK_Feature = 10001,
+                            Level = 1
+                        },
+                        new
+                        {
+                            Id = 10002,
+                            FK_Class = 2,
+                            FK_Feature = 10002,
+                            Level = 1
+                        });
+                });
+
+            modelBuilder.Entity("DnDCharacterTracker.Models.ClassProficiency", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("FK_Class");
+
+                    b.Property<int>("FK_Proficiency");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FK_Class");
+
+                    b.HasIndex("FK_Proficiency");
+
+                    b.ToTable("ClassProficiencies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FK_Class = 1,
+                            FK_Proficiency = 31
+                        },
+                        new
+                        {
+                            Id = 2,
+                            FK_Class = 1,
+                            FK_Proficiency = 32
+                        },
+                        new
+                        {
+                            Id = 3,
+                            FK_Class = 1,
+                            FK_Proficiency = 34
+                        },
+                        new
+                        {
+                            Id = 4,
+                            FK_Class = 1,
+                            FK_Proficiency = 33
+                        },
+                        new
+                        {
+                            Id = 5,
+                            FK_Class = 1,
+                            FK_Proficiency = 29
+                        },
+                        new
+                        {
+                            Id = 6,
+                            FK_Class = 1,
+                            FK_Proficiency = 30
+                        });
+                });
+
+            modelBuilder.Entity("DnDCharacterTracker.Models.Decision", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description");
+
+                    b.Property<int>("FK_Character");
+
+                    b.Property<int>("FK_Class");
+
+                    b.Property<int>("Level");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FK_Character");
+
+                    b.HasIndex("FK_Class");
+
+                    b.ToTable("Decisions");
+                });
+
+            modelBuilder.Entity("DnDCharacterTracker.Models.DecisionOption", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("FK_Decision");
+
+                    b.Property<int>("FK_Option");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FK_Decision");
+
+                    b.HasIndex("FK_Option");
+
+                    b.ToTable("DecisionOptions");
+                });
+
+            modelBuilder.Entity("DnDCharacterTracker.Models.Dice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Dice");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "D4"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "D6"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "D8"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "D10"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "D12"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "D20"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "D100"
+                        });
                 });
 
             modelBuilder.Entity("DnDCharacterTracker.Models.Feature", b =>
@@ -299,8 +503,6 @@ namespace DnDCharacterTracker.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AllowedNumberOfChoices");
-
                     b.Property<string>("Description");
 
                     b.Property<string>("Name");
@@ -308,6 +510,20 @@ namespace DnDCharacterTracker.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Features");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 10001,
+                            Description = "Choose two Skills from Acrobatics, Animal Handling, Athletics, History, Insight, Intimidation, Perception, and Survival.",
+                            Name = "Skills"
+                        },
+                        new
+                        {
+                            Id = 10002,
+                            Description = "You adopt a particular style of fighting as your specialty. Choose a Fighting Style from the list of optional features. You can't take the same Fighting Style option more than once, even if you get to choose again.",
+                            Name = "Fighting Style"
+                        });
                 });
 
             modelBuilder.Entity("DnDCharacterTracker.Models.FeatureChoice", b =>
@@ -316,17 +532,46 @@ namespace DnDCharacterTracker.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("FK_Feature");
+                    b.Property<int>("FK_Choice");
 
-                    b.Property<int>("FK_Option");
+                    b.Property<int>("FK_Feature");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FK_Choice");
+
                     b.HasIndex("FK_Feature");
 
-                    b.HasIndex("FK_Option");
-
                     b.ToTable("FeatureChoices");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 10001,
+                            FK_Choice = 10001,
+                            FK_Feature = 10001
+                        },
+                        new
+                        {
+                            Id = 10002,
+                            FK_Choice = 10002,
+                            FK_Feature = 10002
+                        });
+                });
+
+            modelBuilder.Entity("DnDCharacterTracker.Models.LogItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateLogged");
+
+                    b.Property<string>("Message");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Log");
                 });
 
             modelBuilder.Entity("DnDCharacterTracker.Models.Option", b =>
@@ -397,6 +642,110 @@ namespace DnDCharacterTracker.Migrations
                             Id = 108,
                             FK_Choice = 3,
                             Name = "Mason’s tools",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 10001,
+                            FK_Choice = 10001,
+                            Name = "Acrobatics",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 10002,
+                            FK_Choice = 10001,
+                            Name = "Animal Handling",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 10003,
+                            FK_Choice = 10001,
+                            Name = "Athletics",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 10004,
+                            FK_Choice = 10001,
+                            Name = "History",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 10005,
+                            FK_Choice = 10001,
+                            Name = "Insight",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 10006,
+                            FK_Choice = 10001,
+                            Name = "Intimidation",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 10007,
+                            FK_Choice = 10001,
+                            Name = "Perception",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 10008,
+                            FK_Choice = 10001,
+                            Name = "Survival",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 10009,
+                            Description = "You gain a +2 bonus to Attack rolls you make with Ranged Weapons.",
+                            FK_Choice = 10002,
+                            Name = "Archery",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 10010,
+                            Description = "While you are wearing armor, you gain a +1 bonus to AC.",
+                            FK_Choice = 10002,
+                            Name = "Defense",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 10011,
+                            Description = "When you are wielding a melee weapon in one hand and no other Weapons, you gain a +2 bonus to Damage Rolls with that weapon.",
+                            FK_Choice = 10002,
+                            Name = "Dueling",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 10012,
+                            Description = "When you roll a 1 or 2 on a damage die for an Attack you make with a melee weapon that you are wielding with two hands, you can reroll the die and must use the new roll, even if the new roll is a 1 or a 2. The weapon must have the Two-Handed or Versatile property for you to gain this benefit.",
+                            FK_Choice = 10002,
+                            Name = "Great Weapon Fighting",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 10013,
+                            Description = "When a creature you can see attacks a target other than you that is within 5 feet of you, you can use your Reaction to impose disadvantage on the Attack roll. You must be wielding a Shield.",
+                            FK_Choice = 10002,
+                            Name = "Protection",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 10014,
+                            Description = "When you engage in two-weapon fighting, you can add your ability modifier to the damage of the second Attack.",
+                            FK_Choice = 10002,
+                            Name = "Two-Weapon Fighting",
                             free = false
                         });
                 });
@@ -577,7 +926,7 @@ namespace DnDCharacterTracker.Migrations
                         new
                         {
                             Id = 33,
-                            Name = "Simple Weapons"
+                            Name = "Shields"
                         },
                         new
                         {
@@ -1131,25 +1480,25 @@ namespace DnDCharacterTracker.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 101,
+                            Id = 111,
                             FK_Proficiency = 49,
                             FK_Race = 3
                         },
                         new
                         {
-                            Id = 102,
+                            Id = 112,
                             FK_Proficiency = 38,
                             FK_Race = 3
                         },
                         new
                         {
-                            Id = 103,
+                            Id = 113,
                             FK_Proficiency = 40,
                             FK_Race = 3
                         },
                         new
                         {
-                            Id = 104,
+                            Id = 114,
                             FK_Proficiency = 69,
                             FK_Race = 3
                         });
@@ -1254,7 +1603,7 @@ namespace DnDCharacterTracker.Migrations
                         },
                         new
                         {
-                            Id = 108,
+                            Id = 118,
                             FK_Race = 3,
                             FK_RaceFeature = 108
                         },
@@ -1642,6 +1991,10 @@ namespace DnDCharacterTracker.Migrations
                     b.HasOne("DnDCharacterTracker.Models.Character")
                         .WithMany("Classes")
                         .HasForeignKey("CharacterId");
+
+                    b.HasOne("DnDCharacterTracker.Models.Dice", "HitDice")
+                        .WithMany()
+                        .HasForeignKey("HitDiceId");
                 });
 
             modelBuilder.Entity("DnDCharacterTracker.Models.ClassAbilities", b =>
@@ -1670,16 +2023,55 @@ namespace DnDCharacterTracker.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("DnDCharacterTracker.Models.FeatureChoice", b =>
+            modelBuilder.Entity("DnDCharacterTracker.Models.ClassProficiency", b =>
                 {
-                    b.HasOne("DnDCharacterTracker.Models.Feature", "Feature")
+                    b.HasOne("DnDCharacterTracker.Models.Class", "Class")
                         .WithMany()
-                        .HasForeignKey("FK_Feature")
+                        .HasForeignKey("FK_Class")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DnDCharacterTracker.Models.Proficiency", "Proficiency")
+                        .WithMany()
+                        .HasForeignKey("FK_Proficiency")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DnDCharacterTracker.Models.Decision", b =>
+                {
+                    b.HasOne("DnDCharacterTracker.Models.Character", "Character")
+                        .WithMany()
+                        .HasForeignKey("FK_Character")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DnDCharacterTracker.Models.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("FK_Class")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DnDCharacterTracker.Models.DecisionOption", b =>
+                {
+                    b.HasOne("DnDCharacterTracker.Models.Decision", "Decision")
+                        .WithMany()
+                        .HasForeignKey("FK_Decision")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DnDCharacterTracker.Models.Option", "Option")
                         .WithMany()
                         .HasForeignKey("FK_Option")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DnDCharacterTracker.Models.FeatureChoice", b =>
+                {
+                    b.HasOne("DnDCharacterTracker.Models.Choice", "Choice")
+                        .WithMany()
+                        .HasForeignKey("FK_Choice")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DnDCharacterTracker.Models.Feature", "Feature")
+                        .WithMany()
+                        .HasForeignKey("FK_Feature")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -1724,7 +2116,7 @@ namespace DnDCharacterTracker.Migrations
                         .HasForeignKey("FK_Proficiency")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("DnDCharacterTracker.Models.Character", "Race")
+                    b.HasOne("DnDCharacterTracker.Models.Race", "Race")
                         .WithMany()
                         .HasForeignKey("FK_Race")
                         .OnDelete(DeleteBehavior.Cascade);

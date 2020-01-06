@@ -5,20 +5,23 @@
 
 <h1>ChoiceView</h1>
 
-@for (int iChoice = 0; iChoice < Model.Choices.Count; iChoice++)
-{
-    <h2>@Html.Raw(Model.Choices[iChoice].Name)</h2>
-    <p>@Html.Raw(Model.Choices[iChoice].Description)</p>
-    <div class="col-md-4">
-        <form asp-action="Choice">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="col-md-4">
+    <form asp-action="Choice">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @for (int iChoice = 0; iChoice < Model.Choices.Count; iChoice++)
+        {
+            <h2>@Html.Raw(Model.Choices[iChoice].Name)</h2>
+            <p>@Html.Raw(Model.Choices[iChoice].Description)</p>
+
             @Html.Hidden("Id", Model.Character.Id)
             @Html.Hidden($"choicesCollection.Choices[{iChoice}].Name", Model.Choices[iChoice].Name)
             @Html.Hidden($"choicesCollection.Choices[{iChoice}].Description", Model.Choices[iChoice].Description)
             @Html.Hidden($"choicesCollection.Choices[{iChoice}].Descriminator", Model.Choices[iChoice].Descriminator)
+            @Html.Hidden("choicesCollection.FK_Class", Model.FK_Class)
 
             @for (int iOption = 0; iOption < Model.Choices[iChoice].OptionNames.Count; iOption++)
             {
+                @Html.Hidden($"OptionIds[{iChoice}][{iOption}]", Model.Choices[iChoice].OptionIds[iOption])
                 @if (Model.Choices[iChoice].FreeOptions[iOption])
                 {
                     @Html.Hidden($"optionsChosen[{iChoice}][{iOption}]", true)
@@ -57,11 +60,11 @@
                 }
 
             }
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
-}
+        }
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </form>
+</div>
 
 

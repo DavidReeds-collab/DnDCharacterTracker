@@ -8,6 +8,8 @@ namespace DnDCharacterTracker.Models
     public enum ChoiceType
     {
         RacialLanguage,
-        RacialProficiency
+        RacialProficiency,
+        ClassSkillChoice,
+        ClassFeature
     }
 }

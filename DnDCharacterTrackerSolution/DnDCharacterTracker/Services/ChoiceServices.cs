@@ -18,6 +18,7 @@ namespace DnDCharacterTracker.Services
             _characterServices = characterServices;
         }
 
+        //creates an universal choice view model for all available options. This model is then returned to the view. 
         public ChoiceViewModel CreateChoiceViewModelFromDB(Choice choice)
         {
             ChoiceViewModel returnChoiceViewModel = new ChoiceViewModel();
@@ -26,12 +27,37 @@ namespace DnDCharacterTracker.Services
 
             List<Option> availableOptions = _context.Options.Where(o => o.FK_Choice == choice.Id).ToList();
 
+            //Seperates the choice by type to the proper tables can be referenced. 
+            ChoiceType _choiceType;
 
-            returnChoiceViewModel.Description = _context.RaceFeatureChoices.Where(c => c.FK_Choice == choice.Id).Select(c => c.RaceFeature).FirstOrDefault().Description;
-            returnChoiceViewModel.Name = _context.RaceFeatureChoices.Where(c => c.FK_Choice == choice.Id).Select(c => c.RaceFeature).FirstOrDefault().Name;
+            Enum.TryParse(choice.Descriminator, out _choiceType);
+            returnChoiceViewModel.Descriminator = _choiceType;
+
+            //retreives info from the right table. Cases refer to eachother with goto to prevent duplicate code. 
+            switch (_choiceType)
+            {
+                case ChoiceType.RacialLanguage:
+                    goto case ChoiceType.RacialProficiency;
+                case ChoiceType.RacialProficiency:
+                    returnChoiceViewModel.Description = _context.RaceFeatureChoices.Where(c => c.FK_Choice == choice.Id).Select(c => c.RaceFeature).FirstOrDefault().Description;
+
+                    returnChoiceViewModel.Name = _context.RaceFeatureChoices.Where(c => c.FK_Choice == choice.Id).Select(c => c.RaceFeature).FirstOrDefault().Name;
+                    break;
+                case ChoiceType.ClassSkillChoice:
+                    goto case ChoiceType.ClassFeature;
+                    break;
+                case ChoiceType.ClassFeature:
+                    returnChoiceViewModel.Description = _context.FeatureChoices.Where(c => c.FK_Choice == choice.Id).Select(c => c.Feature).FirstOrDefault().Description;
+
+                    returnChoiceViewModel.Name = _context.FeatureChoices.Where(c => c.FK_Choice == choice.Id).Select(c => c.Feature).FirstOrDefault().Name;
+                    break;
+                default:
+                    break;
+            }
+
 
             returnChoiceViewModel.OptionNames = availableOptions.Select(i => i.Name).ToList();
-            returnChoiceViewModel.OptionNames = availableOptions.Select(i => i.Description).ToList();
+            returnChoiceViewModel.OptionDescriptions = availableOptions.Select(i => i.Description).ToList();
 
             for (int i = 0; i < availableOptions.Count; i++)
             {
@@ -52,19 +78,23 @@ namespace DnDCharacterTracker.Services
                 {
                     returnChoiceViewModel.OptionDescriptions[i] = availableOptions[i].Description;
                 }
+
+                returnChoiceViewModel.OptionIds = _context.Options.Where(c => c.FK_Choice == choice.Id).Select(c => c.Id).ToList();
                 
             }
-            ChoiceType choiceType;
 
-             Enum.TryParse(choice.Descriminator, out choiceType);
-            returnChoiceViewModel.Descriminator = choiceType;
+
 
             return returnChoiceViewModel;
         }
 
         public bool DetectChoiceInFeature(Feature feature)
         {
-            throw new NotImplementedException();
+            bool returnbool = false;
+
+            returnbool = _context.FeatureChoices.Where(fc => fc.FK_Feature == feature.Id).Any();
+
+            return returnbool;
         }
 
         public bool DetectChoiceInFeature(RaceFeature feature)
@@ -119,6 +149,38 @@ namespace DnDCharacterTracker.Services
             return returnChoiceCollection;
         }
 
+        public ChoicesCollection CreateChoiceCollection(List<Feature> ClassFeatures, Character character)
+        {
+            ChoicesCollection returnChoiceCollection = new ChoicesCollection();
+
+            returnChoiceCollection.Choices = new List<ChoiceViewModel>();
+
+            foreach (var classFeature in ClassFeatures)
+            {
+                bool choicePresent = false;
+
+                choicePresent = DetectChoiceInFeature(classFeature);
+
+                if (choicePresent)
+                {
+                    returnChoiceCollection.Choices.Add(CreateChoiceViewModelFromDB(
+
+                        _context.FeatureChoices
+                        .Where(fc => fc.FK_Feature == classFeature.Id)
+                        .Select(c => c.Choice).Include(c => c.AvailableOptions).FirstOrDefault()
+                        ));
+                }
+
+
+            }
+
+            returnChoiceCollection.Character = character;
+
+            returnChoiceCollection.FK_Class = _context.ClassFeatures.Where(cf => cf.FK_Feature == ClassFeatures[0].Id).FirstOrDefault().FK_Class;
+
+            return returnChoiceCollection;
+        }
+
         public void ResolveChoice(int Id, ChoicesCollection choicesCollection)
         {
             choicesCollection.Character = _characterServices.GetCharacterFromId(Id);
@@ -131,7 +193,7 @@ namespace DnDCharacterTracker.Services
                 {
                     if (choice.OptionsChosen[i])
                     {
-                        options.Add(new Option { Name = choice.OptionNames[i] });
+                        options.Add(new Option { Name = choice.OptionNames[i], Id = choice.OptionIds[i] });
                     }
                     if (choice.OptionDescriptions.Count - 1 > i)
                     {
@@ -161,14 +223,63 @@ namespace DnDCharacterTracker.Services
                             }); ;
                         }                        
                         break;
+                    case ChoiceType.ClassSkillChoice:
+                        foreach (var option in options)
+                        {
+                            _context.CharacterSkills.Add(new CharacterSkill
+                            {
+                                FK_Character = Id,
+                                FK_Skill = _context.Skills.Where(s => s.Name == option.Name).Select(p => p.Id).FirstOrDefault(),
+                            }); ;
+                        }
+                        break;
+                    case ChoiceType.ClassFeature:
+
+                        _context.Decisions.Add(new Decision
+                        {
+                            FK_Character = Id,
+                            Description = choice.Description,
+                            Name = choice.Name,
+                            FK_Class = choicesCollection.FK_Class
+
+                        });
+
+                        //Is this really needed? Investigate this. 
+                        _context.SaveChanges();
+
+                        foreach (var option in options)
+                        {
+                            _context.DecisionOptions.Add(new DecisionOption
+                            {
+                                //FK_Decision = _context.Decisions.Count() +1,
+                                FK_Decision = _context.Decisions.Where(d => d.FK_Character == Id && d.Description == choice.Description && d.Name == choice.Name).FirstOrDefault().Id,
+                                FK_Option = option.Id
+                            });;
+                        }
+                        break;
                     default:
                         break;
                 }
             }
 
-            
+            _context.Log.Add(new LogItem { DateLogged = DateTime.Now, Message = $"resolved {choicesCollection.Character.Name} choice, id {choicesCollection.Character.Id}." });
 
             _context.SaveChanges();
+        }
+
+        public bool DetectChoicesInClass(Class _class, int Level)
+        {
+            List<Feature> features = _context.ClassFeatures.Where(c => c.Level == Level && c.FK_Class == _class.Id).Select(c => c.Feature).ToList();
+
+            foreach (var feature in features)
+            {
+                if (_context.FeatureChoices.Where(c => c.FK_Feature == feature.Id).Any())
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
