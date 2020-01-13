@@ -48,7 +48,7 @@ namespace DnDCharacterTracker.Services
             {
                 List<ClassFeature> features = _context.ClassFeatures.Include(c => c.Feature).Where(cf => cf.FK_Class == @class.Id).ToList();
                 int classLevel = _context.CharacterClasses.Where(c => c.FK_Character == id && c.FK_Class == @class.Id).FirstOrDefault().Level;
-                @class.classFeatures = features.Where(c => c.Level <= classLevel).Select(c => c.Feature).ToList();
+                //@class.classFeatures = features.Where(c => c.Level <= classLevel).Select(c => c.Feature).ToList();
             }
 
             returnCharacter.ClassIntermediaries = _context.CharacterClasses.Where(cc => cc.FK_Character == returnCharacter.Id).ToList();
@@ -59,19 +59,29 @@ namespace DnDCharacterTracker.Services
 
             returnCharacter.SkillProficiencies = _context.CharacterSkills.Where(s => s.FK_Character == returnCharacter.Id).Include(c => c.Skill).ToList();
 
+            returnCharacter.ClassFeatures.Clear();
+
             List<Feature> classFeatures = new List<Feature>();
 
             List<ClassFeature> classFeaturesIntermiediaries = new List<ClassFeature>();
 
+            returnCharacter.SubClasses = _context.characterSubClasses.Where(csc => csc.FK_Character == returnCharacter.Id).Select(csc => csc.SubClass).ToList();
+
             foreach (var characterClass in returnCharacter.ClassIntermediaries)
             {
-                classFeatures.AddRange(_context.ClassFeatures.Where(cf => cf.FK_Class == characterClass.FK_Class).Select(cf => cf.Feature).ToList());
-                classFeaturesIntermiediaries.AddRange(_context.ClassFeatures.Where(cf => cf.FK_Class == characterClass.FK_Class).ToList());
+                classFeatures.AddRange(_context.ClassFeatures.Where(cf => cf.FK_Class == characterClass.FK_Class && cf.Level <= returnCharacter.Level).Select(cf => cf.Feature).ToList());
+                classFeaturesIntermiediaries.AddRange(_context.ClassFeatures.Where(cf => cf.FK_Class == characterClass.FK_Class && cf.Level <= returnCharacter.Level).ToList());
             }
 
-            for (int i = 0; i < classFeaturesIntermiediaries.Count; i++)
+            foreach (var subClass in returnCharacter.SubClasses)
             {
-                if (_context.Decisions.Where(d => d.Name == classFeatures[i].Name && d.Description == classFeatures[i].Description).Any())
+                classFeatures.AddRange(_context.SubClassFeatures.Where(scf => scf.FK_SubClass == subClass.Id && scf.Level <= returnCharacter.Level).Select(scf => scf.Feature).ToList());
+
+            }
+
+            for (int i = 0; i < classFeatures.Count; i++)
+            {
+                if (_context.Decisions.Where(d => d.FK_Character == returnCharacter.Id && d.Name == classFeatures[i].Name && d.Description == classFeatures[i].Description).Any())
                 {
                     Decision decision = _context.Decisions.Where(d => d.Name == classFeatures[i].Name && d.Description == classFeatures[i].Description).FirstOrDefault();
 

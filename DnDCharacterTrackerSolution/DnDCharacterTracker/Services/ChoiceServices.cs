@@ -45,12 +45,34 @@ namespace DnDCharacterTracker.Services
                     break;
                 case ChoiceType.ClassSkillChoice:
                     goto case ChoiceType.ClassFeature;
-                    break;
                 case ChoiceType.ClassFeature:
                     returnChoiceViewModel.Description = _context.FeatureChoices.Where(c => c.FK_Choice == choice.Id).Select(c => c.Feature).FirstOrDefault().Description;
 
                     returnChoiceViewModel.Name = _context.FeatureChoices.Where(c => c.FK_Choice == choice.Id).Select(c => c.Feature).FirstOrDefault().Name;
                     break;
+                case ChoiceType.SubClass:
+                    returnChoiceViewModel.Description = _context.FeatureChoices.Where(c => c.FK_Choice == choice.Id).Select(c => c.Feature).FirstOrDefault().Description;
+
+                    returnChoiceViewModel.Name = _context.FeatureChoices.Where(c => c.FK_Choice == choice.Id).Select(c => c.Feature).FirstOrDefault().Name;
+
+                    Feature feature = _context.FeatureChoices.Where(c => c.FK_Choice == choice.Id).Select(c => c.Feature).FirstOrDefault();
+
+                    Class _class = _context.ClassFeatures.Where(cf => cf.FK_Feature == feature.Id).Select(cf => cf.Class).FirstOrDefault();
+
+                    returnChoiceViewModel.OptionNames = _context.SubClasses.Where(sc => sc.FK_Class == _class.Id).Select(c => c.Name).ToList();
+
+                    returnChoiceViewModel.OptionNames = _context.SubClasses.Where(sc => sc.FK_Class == _class.Id).Select(c => c.Name).ToList();
+
+                    returnChoiceViewModel.OptionDescriptions = _context.SubClasses.Where(sc => sc.FK_Class == _class.Id).Select(c => c.Description).ToList();
+
+                    foreach (var option in returnChoiceViewModel.OptionNames)
+                    {
+                        returnChoiceViewModel.FreeOptions.Add(false);
+                    }
+
+                    returnChoiceViewModel.OptionIds = _context.SubClasses.Where(sc => sc.FK_Class == _class.Id).Select(c => c.Id).ToList();
+
+                    return returnChoiceViewModel;
                 default:
                     break;
             }
@@ -257,6 +279,15 @@ namespace DnDCharacterTracker.Services
                             });;
                         }
                         break;
+                    case ChoiceType.SubClass:
+                        SubClass subClass = _context.SubClasses.Where(sc => sc.Id == options[0].Id).FirstOrDefault();
+
+                        choicesCollection.Character.SubClasses.Add(subClass);
+
+                        _context.characterSubClasses.Add(new CharacterSubClass { FK_Character = choicesCollection.Character.Id, FK_SubClass = subClass.Id });
+
+                        _context.Log.Add(new LogItem { DateLogged = DateTime.Now, Message = $"Added subclass {subClass.Name} to {choicesCollection.Character.Name}, id {choicesCollection.Character.Id}." });
+                        break;
                     default:
                         break;
                 }
@@ -270,6 +301,11 @@ namespace DnDCharacterTracker.Services
         public bool DetectChoicesInClass(Class _class, int Level)
         {
             List<Feature> features = _context.ClassFeatures.Where(c => c.Level == Level && c.FK_Class == _class.Id).Select(c => c.Feature).ToList();
+
+            if (features.Count() == 0)
+            {
+                features.AddRange(_context.SubClassFeatures.Where(c => c.Level == Level && c.SubClass.FK_Class == _class.Id).Select(c => c.Feature).ToList());
+            }
 
             foreach (var feature in features)
             {

@@ -144,7 +144,14 @@ namespace DnDCharacterTracker.Controllers
 
             if (hasChoice)
                 {
-                List<Feature> classFeatures = _context.ClassFeatures.Where(f => f.FK_Class == ClassId).Select(f => f.Feature).ToList();
+                List<Feature> classFeatures = _context.ClassFeatures
+                    .Where(f => f.FK_Class == ClassId && f.Level == (levelGained + 1))
+                    .Select(f => f.Feature)
+                    .ToList();
+
+                classFeatures.AddRange(_context.SubClassFeatures.Where(f => f.SubClass.FK_Class == ClassId && f.Level == (levelGained + 1))
+                    .Select(f => f.Feature)
+                    .ToList());
 
                 ChoicesCollection choicesCollection = _choiceServices.CreateChoiceCollection(classFeatures, character);
 

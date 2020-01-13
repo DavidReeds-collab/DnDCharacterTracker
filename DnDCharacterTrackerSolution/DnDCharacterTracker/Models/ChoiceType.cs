@@ -10,6 +10,7 @@ namespace DnDCharacterTracker.Models
         RacialLanguage,
         RacialProficiency,
         ClassSkillChoice,
-        ClassFeature
+        ClassFeature,
+        SubClass
     }
 }

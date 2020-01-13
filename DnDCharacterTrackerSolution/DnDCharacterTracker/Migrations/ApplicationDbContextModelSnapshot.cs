@@ -192,6 +192,25 @@ namespace DnDCharacterTracker.Migrations
                     b.ToTable("CharacterSkills");
                 });
 
+            modelBuilder.Entity("DnDCharacterTracker.Models.CharacterSubClass", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("FK_Character");
+
+                    b.Property<int>("FK_SubClass");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FK_Character");
+
+                    b.HasIndex("FK_SubClass");
+
+                    b.ToTable("characterSubClasses");
+                });
+
             modelBuilder.Entity("DnDCharacterTracker.Models.Choice", b =>
                 {
                     b.Property<int>("Id")
@@ -230,6 +249,12 @@ namespace DnDCharacterTracker.Migrations
                             Id = 10002,
                             AllowedOptions = 1,
                             Descriminator = "ClassFeature"
+                        },
+                        new
+                        {
+                            Id = 10005,
+                            AllowedOptions = 1,
+                            Descriminator = "SubClass"
                         });
                 });
 
@@ -343,6 +368,27 @@ namespace DnDCharacterTracker.Migrations
                             FK_Class = 2,
                             FK_Feature = 10002,
                             Level = 1
+                        },
+                        new
+                        {
+                            Id = 10003,
+                            FK_Class = 2,
+                            FK_Feature = 10003,
+                            Level = 1
+                        },
+                        new
+                        {
+                            Id = 10004,
+                            FK_Class = 2,
+                            FK_Feature = 10004,
+                            Level = 2
+                        },
+                        new
+                        {
+                            Id = 10005,
+                            FK_Class = 2,
+                            FK_Feature = 10005,
+                            Level = 3
                         });
                 });
 
@@ -523,6 +569,48 @@ namespace DnDCharacterTracker.Migrations
                             Id = 10002,
                             Description = "You adopt a particular style of fighting as your specialty. Choose a Fighting Style from the list of optional features. You can't take the same Fighting Style option more than once, even if you get to choose again.",
                             Name = "Fighting Style"
+                        },
+                        new
+                        {
+                            Id = 10003,
+                            Description = "You have a limited well of stamina that you can draw on to protect yourself from harm. On Your Turn, you can use a Bonus Action to regain Hit Points equal to 1d10 + your Fighter level. Once you use this feature, you must finish a short or Long Rest before you can use it again.",
+                            Name = "Second Wind"
+                        },
+                        new
+                        {
+                            Id = 10004,
+                            Description = "Starting at 2nd Level, you can push yourself beyond your normal limits for a moment. On Your Turn, you can take one additional action on top of your regular action and a possible Bonus Action. Once you use this feature, you must finish a short or Long Rest before you can use it again.Starting at 17th level, you can use it twice before a rest, but only once on the same turn.",
+                            Name = "Action Surge"
+                        },
+                        new
+                        {
+                            Id = 10005,
+                            Description = "At 3rd Level, you choose an archetype that you strive to emulate in your Combat styles and Techniques, such as Champion. The archetype you choose grants you features at 3rd Level and again at 7th, 10th, 15th, and 18th level.",
+                            Name = "Martial Archetype"
+                        },
+                        new
+                        {
+                            Id = 10101,
+                            Description = "Beginning when you choose this archetype at 3rd level, your weapon attacks score a critical hit on a roll of 19 or 20.",
+                            Name = "Improved Critical"
+                        },
+                        new
+                        {
+                            Id = 10102,
+                            Description = "Starting at 7th level, you can add half your proficiency bonus (rounded up) to any Strength, Dexterity, or Constitution check you make that doesn't already use your proficiency bonus. In addition, when you make a running long jump, the distance you can cover increases by a number of feet equal to your Strength modifier.",
+                            Name = "Remarkable Athlete"
+                        },
+                        new
+                        {
+                            Id = 10104,
+                            Description = "Starting at 15th level, your weapon attacks score a critical hit on a roll of 18-20.",
+                            Name = "Superior Critical"
+                        },
+                        new
+                        {
+                            Id = 10105,
+                            Description = "At 18th level, you attain the pinnacle of resilience in battle. At the start of each of your turns, you regain hit points equal to 5 + your Constitution modifier if you have no more than half of your hit points left. You don't gain this benefit if you have 0 hit points.",
+                            Name = "Survivor"
                         });
                 });
 
@@ -556,6 +644,12 @@ namespace DnDCharacterTracker.Migrations
                             Id = 10002,
                             FK_Choice = 10002,
                             FK_Feature = 10002
+                        },
+                        new
+                        {
+                            Id = 10005,
+                            FK_Choice = 10005,
+                            FK_Feature = 10005
                         });
                 });
 
@@ -1748,6 +1842,103 @@ namespace DnDCharacterTracker.Migrations
                         });
                 });
 
+            modelBuilder.Entity("DnDCharacterTracker.Models.SubClass", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CharacterId");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int>("FK_Class");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CharacterId");
+
+                    b.HasIndex("FK_Class");
+
+                    b.ToTable("SubClasses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 10101,
+                            Description = "The archetypal Champion focuses on the development of raw physical power honed to deadly perfection. Those who model themselves on this archetype combine rigorous training with physical excellence to deal devastating blows.",
+                            FK_Class = 2,
+                            Name = "Champion"
+                        },
+                        new
+                        {
+                            Id = 10002,
+                            Description = "Those who emulate the archetypal Battle Master employ martial techniques passed down through generations. To a Battle Master, combat is an academic field, sometimes including subjects beyond battle such as weaponsmithing and calligraphy. Not every fighter absorbs the lessons of history, theory, and artistry that are reflected in the Battle Master archetype, but those who do are well-rounded fighters of great skill and knowledge.",
+                            FK_Class = 2,
+                            Name = "Battle Master"
+                        });
+                });
+
+            modelBuilder.Entity("DnDCharacterTracker.Models.SubClassFeature", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("FK_Feature");
+
+                    b.Property<int>("FK_SubClass");
+
+                    b.Property<int>("Level");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FK_Feature");
+
+                    b.HasIndex("FK_SubClass");
+
+                    b.ToTable("SubClassFeatures");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 10101,
+                            FK_Feature = 10101,
+                            FK_SubClass = 10101,
+                            Level = 3
+                        },
+                        new
+                        {
+                            Id = 10102,
+                            FK_Feature = 10102,
+                            FK_SubClass = 10101,
+                            Level = 7
+                        },
+                        new
+                        {
+                            Id = 10103,
+                            FK_Feature = 10002,
+                            FK_SubClass = 10101,
+                            Level = 10
+                        },
+                        new
+                        {
+                            Id = 10104,
+                            FK_Feature = 10104,
+                            FK_SubClass = 10101,
+                            Level = 15
+                        },
+                        new
+                        {
+                            Id = 10105,
+                            FK_Feature = 10105,
+                            FK_SubClass = 10101,
+                            Level = 18
+                        });
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -1986,6 +2177,19 @@ namespace DnDCharacterTracker.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("DnDCharacterTracker.Models.CharacterSubClass", b =>
+                {
+                    b.HasOne("DnDCharacterTracker.Models.Character", "Character")
+                        .WithMany()
+                        .HasForeignKey("FK_Character")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DnDCharacterTracker.Models.SubClass", "SubClass")
+                        .WithMany()
+                        .HasForeignKey("FK_SubClass")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("DnDCharacterTracker.Models.Class", b =>
                 {
                     b.HasOne("DnDCharacterTracker.Models.Character")
@@ -2140,6 +2344,31 @@ namespace DnDCharacterTracker.Migrations
                     b.HasOne("DnDCharacterTracker.Models.AbilityScore", "AbilityScore")
                         .WithMany()
                         .HasForeignKey("FK_AbilityScore")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DnDCharacterTracker.Models.SubClass", b =>
+                {
+                    b.HasOne("DnDCharacterTracker.Models.Character")
+                        .WithMany("SubClasses")
+                        .HasForeignKey("CharacterId");
+
+                    b.HasOne("DnDCharacterTracker.Models.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("FK_Class")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DnDCharacterTracker.Models.SubClassFeature", b =>
+                {
+                    b.HasOne("DnDCharacterTracker.Models.Feature", "Feature")
+                        .WithMany()
+                        .HasForeignKey("FK_Feature")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DnDCharacterTracker.Models.SubClass", "SubClass")
+                        .WithMany()
+                        .HasForeignKey("FK_SubClass")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

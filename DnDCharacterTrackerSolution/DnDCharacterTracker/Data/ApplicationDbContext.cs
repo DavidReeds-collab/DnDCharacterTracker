@@ -281,7 +281,39 @@ namespace DnDCharacterTracker.Data
             modelBuilder.Entity<Option>().HasData(new Option { Id = 10014, FK_Choice = 10002, Name = "Two-Weapon Fighting", Description = "When you engage in two-weapon fighting, you can add your ability modifier to the damage of the second Attack." });
             modelBuilder.Entity<FeatureChoice>().HasData(new FeatureChoice { Id = 10002, FK_Feature = 10002, FK_Choice = 10002 });
 
+            modelBuilder.Entity<Feature>().HasData(new Feature { Id = 10003, Name = "Second Wind", Description = "You have a limited well of stamina that you can draw on to protect yourself from harm. On Your Turn, you can use a Bonus Action to regain Hit Points equal to 1d10 + your Fighter level. Once you use this feature, you must finish a short or Long Rest before you can use it again." });
+            modelBuilder.Entity<ClassFeature>().HasData(new ClassFeature { Id = 10003, FK_Class = 2, FK_Feature = 10003, Level = 1 });
 
+            modelBuilder.Entity<Feature>().HasData(new Feature { Id = 10004, Name = "Action Surge", Description = "Starting at 2nd Level, you can push yourself beyond your normal limits for a moment. On Your Turn, you can take one additional action on top of your regular action and a possible Bonus Action. Once you use this feature, you must finish a short or Long Rest before you can use it again.Starting at 17th level, you can use it twice before a rest, but only once on the same turn." });
+            modelBuilder.Entity<ClassFeature>().HasData(new ClassFeature { Id = 10004, FK_Class = 2, FK_Feature = 10004, Level = 2 });
+
+            modelBuilder.Entity<Feature>().HasData(new Feature { Id = 10005, Name = "Martial Archetype", Description = "At 3rd Level, you choose an archetype that you strive to emulate in your Combat styles and Techniques, such as Champion. The archetype you choose grants you features at 3rd Level and again at 7th, 10th, 15th, and 18th level." });
+            modelBuilder.Entity<ClassFeature>().HasData(new ClassFeature { Id = 10005, FK_Class = 2, FK_Feature = 10005, Level = 3 });
+            modelBuilder.Entity<Choice>().HasData(new Choice { Id = 10005, AllowedOptions = 1, Descriminator = "SubClass" });
+            modelBuilder.Entity<FeatureChoice>().HasData(new FeatureChoice { Id = 10005, FK_Feature = 10005, FK_Choice = 10005 });
+
+            #region Subclasses
+            #region Champion
+            modelBuilder.Entity<SubClass>().HasData(new SubClass { Id = 10101, Name = "Champion", Description = "The archetypal Champion focuses on the development of raw physical power honed to deadly perfection. Those who model themselves on this archetype combine rigorous training with physical excellence to deal devastating blows.", FK_Class = 2 });
+
+            modelBuilder.Entity<Feature>().HasData(new Feature { Id = 10101, Name = "Improved Critical", Description = "Beginning when you choose this archetype at 3rd level, your weapon attacks score a critical hit on a roll of 19 or 20." });
+            modelBuilder.Entity<SubClassFeature>().HasData(new SubClassFeature { Id = 10101, FK_Feature = 10101, FK_SubClass = 10101, Level = 3 });
+
+            modelBuilder.Entity<Feature>().HasData(new Feature { Id = 10102, Name = "Remarkable Athlete", Description = "Starting at 7th level, you can add half your proficiency bonus (rounded up) to any Strength, Dexterity, or Constitution check you make that doesn't already use your proficiency bonus. In addition, when you make a running long jump, the distance you can cover increases by a number of feet equal to your Strength modifier." });
+            modelBuilder.Entity<SubClassFeature>().HasData(new SubClassFeature { Id = 10102, FK_Feature = 10102, FK_SubClass = 10101, Level = 7 });
+
+            modelBuilder.Entity<SubClassFeature>().HasData(new SubClassFeature { Id = 10103, FK_Feature = 10002, FK_SubClass = 10101, Level = 10 });
+
+            modelBuilder.Entity<Feature>().HasData(new Feature { Id = 10104, Name = "Superior Critical", Description = "Starting at 15th level, your weapon attacks score a critical hit on a roll of 18-20." });
+            modelBuilder.Entity<SubClassFeature>().HasData(new SubClassFeature { Id = 10104, FK_Feature = 10104, FK_SubClass = 10101, Level = 15 });
+
+            modelBuilder.Entity<Feature>().HasData(new Feature { Id = 10105, Name = "Survivor", Description = "At 18th level, you attain the pinnacle of resilience in battle. At the start of each of your turns, you regain hit points equal to 5 + your Constitution modifier if you have no more than half of your hit points left. You don't gain this benefit if you have 0 hit points." });
+            modelBuilder.Entity<SubClassFeature>().HasData(new SubClassFeature { Id = 10105, FK_Feature = 10105, FK_SubClass = 10101, Level = 18 });
+            #endregion
+
+
+            modelBuilder.Entity<SubClass>().HasData(new SubClass { Id = 10002, Name = "Battle Master", Description = "Those who emulate the archetypal Battle Master employ martial techniques passed down through generations. To a Battle Master, combat is an academic field, sometimes including subjects beyond battle such as weaponsmithing and calligraphy. Not every fighter absorbs the lessons of history, theory, and artistry that are reflected in the Battle Master archetype, but those who do are well-rounded fighters of great skill and knowledge.", FK_Class = 2 });
+            #endregion
             #endregion
 
 
@@ -318,5 +350,9 @@ namespace DnDCharacterTracker.Data
         public DbSet<DnDCharacterTracker.Models.ClassProficiency> ClassProficiencies { get; set; }
         public DbSet<DnDCharacterTracker.Models.Decision> Decisions { get; set; }
         public DbSet<DnDCharacterTracker.Models.DecisionOption> DecisionOptions { get; set; }
+        public DbSet<DnDCharacterTracker.Models.SubClass> SubClasses { get; set; }
+        public DbSet<DnDCharacterTracker.Models.SubClassFeature> SubClassFeatures { get; set; }
+        public DbSet<DnDCharacterTracker.Models.CharacterSubClass> characterSubClasses { get; set; }
+
     }
 }
