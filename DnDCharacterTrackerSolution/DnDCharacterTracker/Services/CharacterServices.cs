@@ -48,7 +48,6 @@ namespace DnDCharacterTracker.Services
             {
                 List<ClassFeature> features = _context.ClassFeatures.Include(c => c.Feature).Where(cf => cf.FK_Class == @class.Id).ToList();
                 int classLevel = _context.CharacterClasses.Where(c => c.FK_Character == id && c.FK_Class == @class.Id).FirstOrDefault().Level;
-                //@class.classFeatures = features.Where(c => c.Level <= classLevel).Select(c => c.Feature).ToList();
             }
 
             returnCharacter.ClassIntermediaries = _context.CharacterClasses.Where(cc => cc.FK_Character == returnCharacter.Id).ToList();
@@ -109,11 +108,10 @@ namespace DnDCharacterTracker.Services
 
             _context.Log.Add(new LogItem { DateLogged = DateTime.Now, Message = $"Retrieved {returnCharacter.Name}, id {returnCharacter.Id} from Database." });
 
-            //returnCharacter.Classes =
-
             return returnCharacter;
         }
-
+        //Since all levels are assigned to classes, this method reconstructs the "main" character level. 
+        //Can this be put in the get from the character level?
         public int GetCharacterLevel(int Id)
         {
             int levelInt = 0;
@@ -176,6 +174,7 @@ namespace DnDCharacterTracker.Services
 
         public void ApplyAbilityScoreImprovements(Character character, RaceAbilityScores raceAbilityScores)
         {
+            //Is there a cleaner way to do this, like with reflection?
             switch (raceAbilityScores.FK_AbilityScore)
             {
                 case 1:
@@ -197,7 +196,10 @@ namespace DnDCharacterTracker.Services
                     character.Charisma += raceAbilityScores.amount;
                     break;
                 default:
-                    //maybe an exception?
+                    //maybe an exception? Though that would break the flow. Logging might be better here. 
+
+                    _context.Log.Add(new LogItem { DateLogged = DateTime.Now, Message = $"IMPORTANT: Fell through swtich statement in application of ability score.  {character.Name}, {raceAbilityScores.FK_AbilityScore}, id {character.Id}." });
+
                     break;
             }
 

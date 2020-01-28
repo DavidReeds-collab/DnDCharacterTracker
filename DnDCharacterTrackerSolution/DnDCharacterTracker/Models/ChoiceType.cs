@@ -11,6 +11,7 @@ namespace DnDCharacterTracker.Models
         RacialProficiency,
         ClassSkillChoice,
         ClassFeature,
-        SubClass
+        SubClass,
+        AbilityScoreImprovement
     }
 }

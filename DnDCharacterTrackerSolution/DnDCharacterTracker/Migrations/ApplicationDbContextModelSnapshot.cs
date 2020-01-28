@@ -240,6 +240,12 @@ namespace DnDCharacterTracker.Migrations
                         },
                         new
                         {
+                            Id = 666666,
+                            AllowedOptions = 2,
+                            Descriminator = "AbilityScoreImprovement"
+                        },
+                        new
+                        {
                             Id = 10001,
                             AllowedOptions = 2,
                             Descriminator = "ClassSkillChoice"
@@ -389,6 +395,55 @@ namespace DnDCharacterTracker.Migrations
                             FK_Class = 2,
                             FK_Feature = 10005,
                             Level = 3
+                        },
+                        new
+                        {
+                            Id = 10006,
+                            FK_Class = 2,
+                            FK_Feature = 666666,
+                            Level = 4
+                        },
+                        new
+                        {
+                            Id = 10007,
+                            FK_Class = 2,
+                            FK_Feature = 10007,
+                            Level = 5
+                        },
+                        new
+                        {
+                            Id = 10008,
+                            FK_Class = 2,
+                            FK_Feature = 666666,
+                            Level = 6
+                        },
+                        new
+                        {
+                            Id = 10009,
+                            FK_Class = 2,
+                            FK_Feature = 10009,
+                            Level = 9
+                        },
+                        new
+                        {
+                            Id = 10010,
+                            FK_Class = 2,
+                            FK_Feature = 666666,
+                            Level = 10
+                        },
+                        new
+                        {
+                            Id = 10011,
+                            FK_Class = 2,
+                            FK_Feature = 666666,
+                            Level = 15
+                        },
+                        new
+                        {
+                            Id = 10012,
+                            FK_Class = 2,
+                            FK_Feature = 666666,
+                            Level = 18
                         });
                 });
 
@@ -560,6 +615,12 @@ namespace DnDCharacterTracker.Migrations
                     b.HasData(
                         new
                         {
+                            Id = 666666,
+                            Description = "You can increase one ability score of your choice by 2, or you can increase two Ability Scores of your choice by 1. As normal, you can’t increase an ability score above 20 using this feature.",
+                            Name = "Ability Score Improvement"
+                        },
+                        new
+                        {
                             Id = 10001,
                             Description = "Choose two Skills from Acrobatics, Animal Handling, Athletics, History, Insight, Intimidation, Perception, and Survival.",
                             Name = "Skills"
@@ -587,6 +648,18 @@ namespace DnDCharacterTracker.Migrations
                             Id = 10005,
                             Description = "At 3rd Level, you choose an archetype that you strive to emulate in your Combat styles and Techniques, such as Champion. The archetype you choose grants you features at 3rd Level and again at 7th, 10th, 15th, and 18th level.",
                             Name = "Martial Archetype"
+                        },
+                        new
+                        {
+                            Id = 10007,
+                            Description = "Beginning at 5th Level, you can Attack twice, instead of once, whenever you take the Attack action on Your Turn. The number of attacks increases to three when you reach 11th level in this class and to four when you reach 20th level in this class.",
+                            Name = "Extra Attack"
+                        },
+                        new
+                        {
+                            Id = 10009,
+                            Description = "Beginning at 9th level, you can reroll a saving throw that you fail. If you do so, you must use the new roll, and you can't use this feature again until you finish a Long Rest. You can use this feature twice between long rests starting at 13th level and three times between long rests starting at 17th level.",
+                            Name = "Indomitable"
                         },
                         new
                         {
@@ -633,6 +706,12 @@ namespace DnDCharacterTracker.Migrations
                     b.ToTable("FeatureChoices");
 
                     b.HasData(
+                        new
+                        {
+                            Id = 666666,
+                            FK_Choice = 666666,
+                            FK_Feature = 666666
+                        },
                         new
                         {
                             Id = 10001,
@@ -736,6 +815,90 @@ namespace DnDCharacterTracker.Migrations
                             Id = 108,
                             FK_Choice = 3,
                             Name = "Mason’s tools",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 6666661,
+                            FK_Choice = 666666,
+                            Name = "Strenght",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 6666662,
+                            FK_Choice = 666666,
+                            Name = "Strenght",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 6666663,
+                            FK_Choice = 666666,
+                            Name = "Dexterity",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 6666664,
+                            FK_Choice = 666666,
+                            Name = "Dexterity",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 6666665,
+                            FK_Choice = 666666,
+                            Name = "Constitution",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 6666666,
+                            FK_Choice = 666666,
+                            Name = "Constitution",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 6666667,
+                            FK_Choice = 666666,
+                            Name = "Wisdom",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 6666668,
+                            FK_Choice = 666666,
+                            Name = "Wisdom",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 6666669,
+                            FK_Choice = 666666,
+                            Name = "Intelligence",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 66666610,
+                            FK_Choice = 666666,
+                            Name = "Intelligence",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 66666611,
+                            FK_Choice = 666666,
+                            Name = "Charisma",
+                            free = false
+                        },
+                        new
+                        {
+                            Id = 66666612,
+                            FK_Choice = 666666,
+                            Name = "Charisma",
                             free = false
                         },
                         new

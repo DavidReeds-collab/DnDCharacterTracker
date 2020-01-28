@@ -45,6 +45,7 @@ namespace DnDCharacterTracker.Controllers
             }
 
             Character character = _characterServices.GetCharacterFromId(id.Value);
+
             if (character == null)
             {
                 return NotFound();
@@ -67,6 +68,7 @@ namespace DnDCharacterTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Strenght,Dexterity,Constitution,Wisdom,Intelligence,Charisma,FK_Race")] Character character)
         {
+            //Update the validation during refactoring. Right now there is very little validation in place and this can be harmful in the long run. 
             if (ModelState.IsValid)
             {
                 _context.Add(character);
@@ -82,9 +84,10 @@ namespace DnDCharacterTracker.Controllers
             return View(character);
         }
 
+        //Generic controller for all choices actions. Takes several objects right now; can this be combined in a single class? ASP.NET doesn't seem to like sending larger objects between classes; study this. 
         public IActionResult Choice (int Id, ChoicesCollection choicesCollection, List<List<bool>> optionsChosen, List<List<string>> optionsNames, List<List<string>> optionsDescriptions, List<List<int>> OptionIds)
         {
-
+            //Restored the choicecollection from all the loose lists that were send here. 
             for (int i = 0; i < choicesCollection.Choices.Count; i++)
             {
                 choicesCollection.Choices[i].OptionNames = optionsNames[i];
@@ -98,6 +101,7 @@ namespace DnDCharacterTracker.Controllers
 
             _choiceServices.ResolveChoice(Id, choicesCollection);
 
+            //Is this needed? The character get's reconstructed a lot, which might be redundant.
             Character character = _characterServices.GetCharacterFromId(Id);
 
             return View("Details", character);
@@ -108,7 +112,7 @@ namespace DnDCharacterTracker.Controllers
             Character character = _characterServices.GetCharacterFromId(Id);
             _characterServices.SetCharacterRace(FK_Race, character);
 
-            bool hasChoices = _choiceServices.DetectChoiceInRace(character.Race);
+            bool hasChoices = _choiceServices.IsChoiceInRace(character.Race);
 
             if (hasChoices)
             {
@@ -130,6 +134,7 @@ namespace DnDCharacterTracker.Controllers
             return View("ChooseRace", character);
         }
 
+        //For both leveling and applying classes. 
         public async Task<IActionResult> ChooseClass(int Id, int ClassId)
         {
             Character character = _characterServices.GetCharacterFromId(Id);
@@ -138,10 +143,11 @@ namespace DnDCharacterTracker.Controllers
 
             int levelGained = _characterServices.GetClassLevel(character, _class);
 
-            bool hasChoice = _choiceServices.DetectChoicesInClass(_class, (levelGained + 1));
+            bool hasChoice = _choiceServices.IsChoicesInClass(_class, (levelGained + 1));
 
             _characterServices.AddCharacterClass(ClassId, character);
 
+            //If a choice is present, reconstruct the different features needed for the choicecollection. 
             if (hasChoice)
                 {
                 List<Feature> classFeatures = _context.ClassFeatures

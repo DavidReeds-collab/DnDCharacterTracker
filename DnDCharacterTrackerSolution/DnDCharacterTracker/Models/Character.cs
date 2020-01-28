@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace DnDCharacterTracker.Models
 {
+    //This model is problematic. Right now it is used everywhere; can this be applied more isolated, or split up? 
     public class Character
     {
         [Key]

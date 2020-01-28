@@ -12,6 +12,7 @@ namespace DnDCharacterTracker.Services
     {
         private readonly ApplicationDbContext _context;
         private ICharacterServices _characterServices;
+
         public ChoiceServices(ApplicationDbContext context, ICharacterServices characterServices)
         {
             _context = context;
@@ -43,6 +44,8 @@ namespace DnDCharacterTracker.Services
 
                     returnChoiceViewModel.Name = _context.RaceFeatureChoices.Where(c => c.FK_Choice == choice.Id).Select(c => c.RaceFeature).FirstOrDefault().Name;
                     break;
+                case ChoiceType.AbilityScoreImprovement:
+                    goto case ChoiceType.ClassFeature;
                 case ChoiceType.ClassSkillChoice:
                     goto case ChoiceType.ClassFeature;
                 case ChoiceType.ClassFeature:
@@ -74,6 +77,7 @@ namespace DnDCharacterTracker.Services
 
                     return returnChoiceViewModel;
                 default:
+                    //insert logging here.
                     break;
             }
 
@@ -110,7 +114,7 @@ namespace DnDCharacterTracker.Services
             return returnChoiceViewModel;
         }
 
-        public bool DetectChoiceInFeature(Feature feature)
+        public bool IsChoiceInFeature(Feature feature)
         {
             bool returnbool = false;
 
@@ -119,7 +123,7 @@ namespace DnDCharacterTracker.Services
             return returnbool;
         }
 
-        public bool DetectChoiceInFeature(RaceFeature feature)
+        public bool IsChoiceInFeature(RaceFeature feature)
         {
             bool returnbool = false;
 
@@ -128,12 +132,12 @@ namespace DnDCharacterTracker.Services
             return returnbool;
         }
 
-        public bool DetectChoiceInRace(Race race)
+        public bool IsChoiceInRace(Race race)
         {
             race.raceFeatures = _context.RaceRacefeatures.Where(rrf => rrf.FK_Race == race.Id).Select(c => c.RaceFeature).ToList();
             foreach (var raceFeature in race.raceFeatures)
             {
-                if (DetectChoiceInFeature(raceFeature))
+                if (IsChoiceInFeature(raceFeature))
                 {
                     return true;
                 }
@@ -142,6 +146,8 @@ namespace DnDCharacterTracker.Services
             return false;
         }
 
+        //Creates the universal choice collection that all choices will become. 2 versions, one for race features and one for classfeatures. Can be extended for feats. 
+        //Can this become one with the implementation of an interface?
         public ChoicesCollection CreateChoiceCollection(List<RaceFeature> raceFeatures, Character character)
         {
             ChoicesCollection returnChoiceCollection = new ChoicesCollection();
@@ -152,7 +158,7 @@ namespace DnDCharacterTracker.Services
             {
                 bool choicePresent = false;
 
-                choicePresent = DetectChoiceInFeature(raceFeature);
+                choicePresent = IsChoiceInFeature(raceFeature);
 
                 if (choicePresent)
                 {
@@ -181,7 +187,7 @@ namespace DnDCharacterTracker.Services
             {
                 bool choicePresent = false;
 
-                choicePresent = DetectChoiceInFeature(classFeature);
+                choicePresent = IsChoiceInFeature(classFeature);
 
                 if (choicePresent)
                 {
@@ -223,6 +229,8 @@ namespace DnDCharacterTracker.Services
                     }
                 }
 
+
+                //This one is becoming WAY too large. Adress this. 
                 switch (choice.Descriminator)
                 {
                     case ChoiceType.RacialLanguage:
@@ -288,6 +296,38 @@ namespace DnDCharacterTracker.Services
 
                         _context.Log.Add(new LogItem { DateLogged = DateTime.Now, Message = $"Added subclass {subClass.Name} to {choicesCollection.Character.Name}, id {choicesCollection.Character.Id}." });
                         break;
+                    case ChoiceType.AbilityScoreImprovement:
+                        foreach (var option in options)
+                        {
+                            _context.Log.Add(new LogItem { DateLogged = DateTime.Now, Message = $"Ability Score {option.Name} improved for character {choicesCollection.Character.Name}, id {choicesCollection.Character.Id}." });
+
+                            switch (option.Name)
+                            {
+                                case "Strenght":
+                                    choicesCollection.Character.Strenght += 1;
+                                    break;
+                                case "Dexterity":
+                                    choicesCollection.Character.Dexterity += 1;
+                                    break;
+                                case "Constitution":
+                                    choicesCollection.Character.Constitution += 1;
+                                    break;
+                                case "Wisdom":
+                                    choicesCollection.Character.Wisdom += 1;
+                                    break;
+                                case "Intelligence":
+                                    choicesCollection.Character.Intelligence += 1;
+                                    break;
+                                case "Charisma":
+                                    choicesCollection.Character.Charisma += 1;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+
+                        break;
                     default:
                         break;
                 }
@@ -298,7 +338,7 @@ namespace DnDCharacterTracker.Services
             _context.SaveChanges();
         }
 
-        public bool DetectChoicesInClass(Class _class, int Level)
+        public bool IsChoicesInClass(Class _class, int Level)
         {
             List<Feature> features = _context.ClassFeatures.Where(c => c.Level == Level && c.FK_Class == _class.Id).Select(c => c.Feature).ToList();
 

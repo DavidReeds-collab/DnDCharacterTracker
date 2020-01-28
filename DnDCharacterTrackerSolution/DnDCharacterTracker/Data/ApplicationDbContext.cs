@@ -20,6 +20,7 @@ namespace DnDCharacterTracker.Data
             // ...
         }
 
+        //Can the Id be generated? Because right now this will become a huge bottleneck later if items need to be updated or removed. 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -242,8 +243,25 @@ namespace DnDCharacterTracker.Data
 
             #endregion
             #endregion
-            #region Classes
+            #region Classes & Shared features
             modelBuilder.Entity<Class>().HasData(new Class { Id = 1, Name = "Not chosen yet" });
+
+            modelBuilder.Entity<Feature>().HasData(new Feature { Id = 666666, Name = "Ability Score Improvement", Description = "You can increase one ability score of your choice by 2, or you can increase two Ability Scores of your choice by 1. As normal, you can’t increase an ability score above 20 using this feature." });
+            modelBuilder.Entity<Choice>().HasData(new Choice { Id = 666666, AllowedOptions = 2, Descriminator = "AbilityScoreImprovement" });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 6666661, FK_Choice = 666666, Name = "Strenght" });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 6666662, FK_Choice = 666666, Name = "Strenght" });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 6666663, FK_Choice = 666666, Name = "Dexterity" });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 6666664, FK_Choice = 666666, Name = "Dexterity" });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 6666665, FK_Choice = 666666, Name = "Constitution" });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 6666666, FK_Choice = 666666, Name = "Constitution" });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 6666667, FK_Choice = 666666, Name = "Wisdom" });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 6666668, FK_Choice = 666666, Name = "Wisdom" });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 6666669, FK_Choice = 666666, Name = "Intelligence" });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 66666610, FK_Choice = 666666, Name = "Intelligence" });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 66666611, FK_Choice = 666666, Name = "Charisma" });
+            modelBuilder.Entity<Option>().HasData(new Option { Id = 66666612, FK_Choice = 666666, Name = "Charisma" });
+            modelBuilder.Entity<FeatureChoice>().HasData(new FeatureChoice { Id = 666666, FK_Feature = 666666, FK_Choice = 666666 });
+
             #region Fighter
             modelBuilder.Entity<Class>().HasData(new Class { Id = 2, Name = "Fighter", FK_Dice = 4 });
 
@@ -292,6 +310,24 @@ namespace DnDCharacterTracker.Data
             modelBuilder.Entity<Choice>().HasData(new Choice { Id = 10005, AllowedOptions = 1, Descriminator = "SubClass" });
             modelBuilder.Entity<FeatureChoice>().HasData(new FeatureChoice { Id = 10005, FK_Feature = 10005, FK_Choice = 10005 });
 
+            modelBuilder.Entity<ClassFeature>().HasData(new ClassFeature { Id = 10006, FK_Class = 2, FK_Feature = 666666, Level = 4 });
+
+            modelBuilder.Entity<Feature>().HasData(new Feature { Id = 10007, Name = "Extra Attack", Description = "Beginning at 5th Level, you can Attack twice, instead of once, whenever you take the Attack action on Your Turn. The number of attacks increases to three when you reach 11th level in this class and to four when you reach 20th level in this class." });
+            modelBuilder.Entity<ClassFeature>().HasData(new ClassFeature { Id = 10007, FK_Class = 2, FK_Feature = 10007, Level = 5 });
+
+            modelBuilder.Entity<ClassFeature>().HasData(new ClassFeature { Id = 10008, FK_Class = 2, FK_Feature = 666666, Level = 6 });
+
+            modelBuilder.Entity<Feature>().HasData(new Feature { Id = 10009, Name = "Indomitable", Description = "Beginning at 9th level, you can reroll a saving throw that you fail. If you do so, you must use the new roll, and you can't use this feature again until you finish a Long Rest. You can use this feature twice between long rests starting at 13th level and three times between long rests starting at 17th level." });
+            modelBuilder.Entity<ClassFeature>().HasData(new ClassFeature { Id = 10009, FK_Class = 2, FK_Feature = 10009, Level = 9 });
+
+            modelBuilder.Entity<ClassFeature>().HasData(new ClassFeature { Id = 10010, FK_Class = 2, FK_Feature = 666666, Level = 10 });
+
+            modelBuilder.Entity<ClassFeature>().HasData(new ClassFeature { Id = 10011, FK_Class = 2, FK_Feature = 666666, Level = 15 });
+
+            modelBuilder.Entity<ClassFeature>().HasData(new ClassFeature { Id = 10012, FK_Class = 2, FK_Feature = 666666, Level = 18 });
+
+
+
             #region Subclasses
             #region Champion
             modelBuilder.Entity<SubClass>().HasData(new SubClass { Id = 10101, Name = "Champion", Description = "The archetypal Champion focuses on the development of raw physical power honed to deadly perfection. Those who model themselves on this archetype combine rigorous training with physical excellence to deal devastating blows.", FK_Class = 2 });
@@ -313,6 +349,8 @@ namespace DnDCharacterTracker.Data
 
 
             modelBuilder.Entity<SubClass>().HasData(new SubClass { Id = 10002, Name = "Battle Master", Description = "Those who emulate the archetypal Battle Master employ martial techniques passed down through generations. To a Battle Master, combat is an academic field, sometimes including subjects beyond battle such as weaponsmithing and calligraphy. Not every fighter absorbs the lessons of history, theory, and artistry that are reflected in the Battle Master archetype, but those who do are well-rounded fighters of great skill and knowledge.", FK_Class = 2 });
+
+
             #endregion
             #endregion
 

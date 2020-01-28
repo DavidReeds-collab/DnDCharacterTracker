@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DnDCharacterTracker.Models
 {
-    public class Feature
+    public class Feature: IFeature
     {
         [Key]
         public int Id { get; set; }

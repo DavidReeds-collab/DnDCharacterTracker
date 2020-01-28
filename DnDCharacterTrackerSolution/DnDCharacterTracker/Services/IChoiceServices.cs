@@ -8,12 +8,12 @@ namespace DnDCharacterTracker.Services
 {
     public interface IChoiceServices
     {
-        bool DetectChoiceInFeature(Feature feature);
-        bool DetectChoiceInFeature(RaceFeature feature);
+        bool IsChoiceInFeature(Feature feature);
+        bool IsChoiceInFeature(RaceFeature feature);
 
-        bool DetectChoiceInRace(Race race);
+        bool IsChoiceInRace(Race race);
 
-        bool DetectChoicesInClass(Class _class, int Level);
+        bool IsChoicesInClass(Class _class, int Level);
 
         ChoiceViewModel CreateChoiceViewModelFromDB(Choice choice);
 
